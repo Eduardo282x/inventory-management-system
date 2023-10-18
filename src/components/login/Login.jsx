@@ -63,6 +63,7 @@ export const Login = () => {
                 <OutlinedInput
                     id="inputUser"
                     type="text" 
+                    label="Usuario"
                     value={nombre}
                     onChange={e => setNombre(e.target.value)}
                     endAdornment={
