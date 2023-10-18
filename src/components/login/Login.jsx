@@ -82,7 +82,6 @@ export const Login = () => {
                 <InputLabel htmlFor="outlined-adornment-password">Contraseña</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-password"
-                    label="Contraseña"
                     type={showPassword ? 'text' : 'password'}
                     value={pasword}
                     onChange={e => setPassword(e.target.value)}
