@@ -1,16 +1,18 @@
 import Button from '@mui/material/Button';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from "react-router-dom";
 import './home.css'
 
 export const Home = () => {
+    const navigate = useNavigate();
 
     const backLogin = () => {
-        location.href = '/'
+        navigate("/")
     }
 
     return (
         <>
-        <h1>Bienvenido</h1>
+        <h1 className='textHome'>Bienvenido</h1>
         <Button
         variant="contained"
         className='btnBack'

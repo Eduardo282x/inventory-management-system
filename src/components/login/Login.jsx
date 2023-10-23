@@ -1,29 +1,35 @@
-import './login.css' 
-import { useState } from 'react';
-import Button from '@mui/material/Button';
-import * as React from 'react';
-// import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
+import "./login.css";
+import { useState } from "react";
+import Button from "@mui/material/Button";
+import * as React from "react";
+import IconButton from "@mui/material/IconButton";
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-// import Box from '@mui/material/Box';
-// import Input from '@mui/material/Input';
-// import FilledInput from '@mui/material/FilledInput';
-// import FormHelperText from '@mui/material/FormHelperText';
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Icon from "@mui/material/Icon";
 import FormControl from '@mui/material/FormControl';
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
-    const [nombre,setNombre] = useState('');
-    const [pasword,setPassword] = useState('');
+    const [loginData, setLoginData] = useState({
+        nombre: "",
+        password: "",
+    });
+    const navigate = useNavigate();
 
-    const [error,setError] = useState(false);
-    const [errorMessage,setErrorMessage] = useState('Todos los campos son obligatorios');
+    const dataLogin = (e) => {
+        setLoginData({ ...loginData, [e.target.name]: e.target.value });
+    };
 
+    const [error, setError] = useState(false);
     const [showPassword, setShowPassword] = React.useState(false);
+
+    const [errorMessage, setErrorMessage] = useState(
+        "Todos los campos son obligatorios"
+    );
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -33,59 +39,62 @@ export const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(loginData);
 
-        if(nombre === '' || pasword === ''){
+        if (loginData.nombre === "" || loginData.password === "") {
             setError(true);
-            setErrorMessage('Todos los campos son obligatorios');
-            return
+            setErrorMessage("Todos los campos son obligatorios");
+            return;
         }
 
-        if(nombre !== 'admin' && pasword !== 'admin'){
-            setErrorMessage('Usuario Invalido');
-            setError(true)
-            return
+        if (loginData.nombre !== "admin" && loginData.password !== "admin") {
+            console.log(loginData);
+            setErrorMessage("Usuario Invalido");
+            setError(true);
+            return;
         }
 
-        if(nombre === 'admin' && pasword === 'admin'){
-            location.href='/home';
-            setError(true)
-            return
+        if (loginData.nombre === "admin" && loginData.password === "admin") {
+            navigate("/home");
+            setError(false);
+            return;
         }
-        setError(false)
-    }
+        setError(false);
+    };
 
     return (
-    <>
-        <form className="login" onSubmit={handleSubmit}>
-            <h1>Login</h1>
-            <FormControl sx={{ m: 1, width: '25ch' }} variant="filled">
+        <>
+            <form className="login" onSubmit={handleSubmit}>
+                <h1>Login</h1>
+
+            <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
                 <InputLabel htmlFor="inputUser">Usuario</InputLabel>
                 <OutlinedInput
                     id="inputUser"
                     type="text" 
                     label="Usuario"
-                    value={nombre}
-                    onChange={e => setNombre(e.target.value)}
+                    value={loginData.nombre}
+                    name="nombre"
+                    onChange={dataLogin}
                     endAdornment={
                     <InputAdornment position="end">
-                        <IconButton
-                        aria-label="toggle password visibility"
-                        edge="end"
-                        >
+                        <Icon>
                         {<AccountCircleIcon />}
-                        </IconButton>
+                        </Icon>
                     </InputAdornment>
                     }
                 />
             </FormControl>
 
-            <FormControl sx={{ m: 1, width: '25ch' }} variant="filled">
+            <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">Contraseña</InputLabel>
                 <OutlinedInput
+                    label="Contraseña"
                     id="outlined-adornment-password"
                     type={showPassword ? 'text' : 'password'}
-                    value={pasword}
-                    onChange={e => setPassword(e.target.value)}
+                    value={loginData.password}
+                    name="password"
+                    onChange={dataLogin}
                     endAdornment={
                     <InputAdornment position="end">
                         <IconButton
@@ -99,15 +108,13 @@ export const Login = () => {
                     </InputAdornment>
                     }
                 />
-            </FormControl>
+            </FormControl> 
 
-
-            <Button 
-            variant="outlined"
-            onClick={handleSubmit}
-            >Iniciar Sesión</Button>
-        {error && <p className='errorMessage'>{errorMessage}</p>}
-        </form>
-    </>
-    )
+                <Button variant="outlined" onClick={handleSubmit}>
+                    Iniciar Sesión
+                </Button>
+                {error && <p className="errorMessage">{errorMessage}</p>}
+            </form>
+        </>
+    );
 };
