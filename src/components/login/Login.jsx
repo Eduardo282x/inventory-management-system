@@ -10,11 +10,14 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Snackbar from '@mui/material/Snackbar';
+
 // import Box from '@mui/material/Box';
 // import Input from '@mui/material/Input';
 // import FilledInput from '@mui/material/FilledInput';
 // import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
+import { Icon } from '@mui/material';
 
 export const Login = () => {
     const [nombre,setNombre] = useState('');
@@ -53,6 +56,21 @@ export const Login = () => {
         }
         setError(false)
     }
+  
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setError(false);
+    }
+
+    const [state, setState] = React.useState({
+        open: false,
+        vertical: 'bottom',
+        horizontal: 'center',
+      });
+      const { vertical, horizontal } = state;
 
     return (
     <>
@@ -67,12 +85,9 @@ export const Login = () => {
                     onChange={e => setNombre(e.target.value)}
                     endAdornment={
                     <InputAdornment position="end">
-                        <IconButton
-                        aria-label="toggle password visibility"
-                        edge="end"
-                        >
-                        {<AccountCircleIcon />}
-                        </IconButton>
+                        <Icon>
+                            {<AccountCircleIcon />}
+                        </Icon>
                     </InputAdornment>
                     }
                 />
@@ -91,7 +106,7 @@ export const Login = () => {
                         aria-label="toggle password visibility"
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
-                        edge="end"
+                        edge="start"
                         >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
@@ -105,8 +120,15 @@ export const Login = () => {
             variant="outlined"
             onClick={handleSubmit}
             >Iniciar Sesión</Button>
-        {error && <p className='errorMessage'>{errorMessage}</p>}
+
+            <Snackbar
+                anchorOrigin={{ vertical, horizontal }}
+                open={error}
+                autoHideDuration={3000}
+                onClose={handleClose}
+                message={errorMessage}
+            />
         </form>
     </>
     )
-};
+}
