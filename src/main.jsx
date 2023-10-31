@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from './App.jsx'
 import { Home } from './components/home/Home.jsx';
+import {Profile} from './components/profile/Profile.jsx';
+import {Inventory} from './components/inventory/Inventory.jsx';
 import './index.css'
 
 import CssBaseline from '@mui/material/CssBaseline';
@@ -20,6 +22,14 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <Home />,
+  },
+  {
+    path: "/inventory",
+    element: <Inventory />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />
   },
 ]);
 

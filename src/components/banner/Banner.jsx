@@ -1,16 +1,21 @@
-import { Link } from 'react-router-dom';
 import './banner.css' 
-import LogoutIcon from '@mui/icons-material/Logout';
+import MenuIcon from '@mui/icons-material/Menu';
+import { DropDownMenu } from '../dropDownMenu/DropDownMenu';
+import { useState } from 'react';
+import { Outlet } from "react-router-dom";
+
 
 export const Banner = () => {
+  const [openMenu,setOpenMenu] = useState(false);
+
+  const menu = () => {setOpenMenu(!openMenu);}
+
   return (
     <div className="bannerDisplay">
         <h1>Sistema de Inventario</h1>
-        
-        <div className="logout">
-            <LogoutIcon></LogoutIcon>
-            <Link to={'/'} className='logout'>Cerrar Sesión</Link>
-        </div>
+        <MenuIcon onClick={menu} className='menuIcon'></MenuIcon>
+        {openMenu ? <DropDownMenu/> : <></>}
+        <Outlet/>
     </div>
   )
 }
