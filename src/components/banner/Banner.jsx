@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './banner.css' 
 import LogoutIcon from '@mui/icons-material/Logout';
 
@@ -8,7 +9,7 @@ export const Banner = () => {
         
         <div className="logout">
             <LogoutIcon></LogoutIcon>
-            <p>Cerrar Sesión</p>
+            <Link to={'/'} className='logout'>Cerrar Sesión</Link>
         </div>
     </div>
   )
