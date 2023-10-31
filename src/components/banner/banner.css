@@ -1,0 +1,18 @@
+.bannerDisplay{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logout{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #fff;
+}
+
+.logout p{
+    margin-left: 1rem;
+}
