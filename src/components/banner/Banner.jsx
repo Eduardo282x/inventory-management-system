@@ -2,7 +2,7 @@ import './banner.css'
 import MenuIcon from '@mui/icons-material/Menu';
 import { DropDownMenu } from '../dropDownMenu/DropDownMenu';
 import { useState } from 'react';
-import { Outlet } from "react-router-dom";
+// import { Outlet } from "react-router-dom";
 
 
 export const Banner = () => {
@@ -15,7 +15,7 @@ export const Banner = () => {
         <h1>Sistema de Inventario</h1>
         <MenuIcon onClick={menu} className='menuIcon'></MenuIcon>
         {openMenu ? <DropDownMenu/> : <></>}
-        <Outlet/>
+        {/* <Outlet/> */}
     </div>
   )
 }
