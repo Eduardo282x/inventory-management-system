@@ -55,6 +55,8 @@ export const Login = () => {
         }
 
         if (loginData.nombre === "admin" && loginData.password === "admin") {
+            console.log(loginData);
+            localStorage.setItem('userData', JSON.stringify(loginData))
             navigate("/home");
             setError(false);
             return;
