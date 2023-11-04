@@ -11,11 +11,12 @@ export const Banner = () => {
   const menu = () => {setOpenMenu(!openMenu);}
 
   return (
-    <div className="bannerDisplay">
+    <div className='bannerBackground'>
+      <div className="bannerDisplay">
         <h1>Sistema de Inventario</h1>
         <MenuIcon onClick={menu} className='menuIcon'></MenuIcon>
-        {openMenu ? <DropDownMenu/> : <></>}
-        {/* <Outlet/> */}
+        {openMenu ? <DropDownMenu close={setOpenMenu}/> : <></>}
+      </div>
     </div>
   )
 }

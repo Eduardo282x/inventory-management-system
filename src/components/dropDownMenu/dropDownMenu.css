@@ -12,6 +12,7 @@
     outline: none;
     padding: .5rem;
     transition: .5s;
+    cursor: pointer;
 }
 
 .links:hover{

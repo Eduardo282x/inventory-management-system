@@ -2,12 +2,12 @@
     gap: .8rem;
 }
 
-.textHome{
+.textHome,.back{
     color: #fff;
 }
 
 .homeContent{
-    width: 80vw;
+    width: 100%;
     height: 80vh;
     display: flex;
     align-items: center;

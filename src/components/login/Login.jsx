@@ -63,7 +63,7 @@ export const Login = () => {
     };
 
     return (
-        <>
+        <div className="loginBackground">
             <form className="login" onSubmit={handleSubmit}>
                 <h1>Login</h1>
 
@@ -115,6 +115,6 @@ export const Login = () => {
                 </Button>
                 {error && <p className="errorMessage">{errorMessage}</p>}
             </form>
-        </>
+        </div>
     );
 };
