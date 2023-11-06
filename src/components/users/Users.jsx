@@ -34,7 +34,7 @@ export const Users = () => {
                     <Button variant="contained" onClick={goBack}>
                         <ArrowBackIcon className='back'/>
                     </Button>
-                    <h1>Usuarios</h1>
+                    <h1>Usuarios 2</h1>
                 </div>
 
                 <div className="tableContent">
