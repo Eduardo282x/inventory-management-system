@@ -14,6 +14,8 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { Login } from './components/login/Login.jsx'
 import Layout from './components/Layout/Layout.jsx'
+import { Reports } from './components/reports/Reports.jsx';
+import { Users } from './components/users/Users.jsx';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +36,14 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />
+      },
+      {
+        path: "/reports",
+        element: <Reports />
+      },
+      {
+        path: "/users",
+        element: <Users />
       },
     ]
   }

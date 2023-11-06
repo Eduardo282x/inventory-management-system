@@ -12,9 +12,9 @@ export const Profile = () => {
 
   return (
     <div className="log"> 
-     <Button variant="contained" onClick={goBack}>
-          <ArrowBackIcon className='back'/>
-      </Button>
+      <Button variant="contained" onClick={goBack}>
+            <ArrowBackIcon className='back'/>
+        </Button>
       <h1>Perfil </h1>
     </div>
   )
