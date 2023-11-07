@@ -60,7 +60,7 @@ export const Users = () => {
                         <Button variant="contained" onClick={goBack}>
                             <ArrowBackIcon className='back'/>
                         </Button>
-                        <h1><GroupIcon className='groupIcon'/>Usuarios 2</h1>
+                        <h1><GroupIcon className='groupIcon'/>Usuarios</h1>
                     </div>
 
                     <div className="inputFilter">
