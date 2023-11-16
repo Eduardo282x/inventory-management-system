@@ -1,35 +1,15 @@
-.table{
-    box-shadow: 2px 2px 10px rgb(0, 0, 0,0.5);
-    position: relative;
-    height: 100%;
-    width: 80%;
-    margin: 0 2rem;
-    overflow-y: auto;
-}
-
 .groupIcon{
     scale: 2;
     margin: 0 1rem;
 }
-.editBtn{
-    z-index: 0;
-}
-.tHeader{
-    position: sticky;
-    top: 0;
-    z-index: 2;
-    background-color: #1565c0;
-}
 
-.textHead{
-    color: #fff !important;
-}
 .tableContent{
     position: relative;
     height:70%;
     width: 100%;
     display: flex;
-    overflow-y: auto;
+    overflow-y: hidden;
+    
     justify-content: center;
     align-items: flex-start;
 }
@@ -49,6 +29,7 @@
     width: 90%;
     height: 20%;
     align-items: center;
+    margin: 0 2rem;
 }
 
 .btnFilter{

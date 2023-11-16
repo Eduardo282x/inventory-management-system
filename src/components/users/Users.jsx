@@ -3,18 +3,11 @@ import './users.css'
 import { Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from "react-router-dom";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import EditIcon from '@mui/icons-material/Edit';
-// import DeleteIcon from '@mui/icons-material/Delete';
 import GroupIcon from '@mui/icons-material/Group';
-import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
+
+import { TablaComponents } from '../Shared/Table/TablaComponents';
 
 export const Users = () => {
 
@@ -39,6 +32,9 @@ export const Users = () => {
         createData('Carlos', 'Pérez', 'carlos.perez@example.com', '87654321', '+58 4249876543'),
     ];
 
+    const columns = ['Nombre','Apellido','Correo','Cédula','Teléfono','Editar']
+    const columnsName = ['name','lastname','email','id','phone',]
+
     const filteredRows = rows.filter((row) =>
         row.name.toLowerCase().includes(filterText.toLowerCase()) ||
         row.lastname.toLowerCase().includes(filterText.toLowerCase()) ||
@@ -49,7 +45,7 @@ export const Users = () => {
     
 
     const goBack = () => {
-        navigate('/home')
+        navigate(-1);
     }
     
     return (
@@ -60,7 +56,7 @@ export const Users = () => {
                         <Button variant="contained" onClick={goBack}>
                             <ArrowBackIcon className='back'/>
                         </Button>
-                        <h1><GroupIcon className='groupIcon'/>Usuarios 2</h1>
+                        <h1><GroupIcon className='groupIcon'/>Usuarios</h1>
                     </div>
 
                     <div className="inputFilter">
@@ -74,32 +70,7 @@ export const Users = () => {
                 </div>
 
                 <div className="tableContent">
-                    <TableContainer component={Paper } className='table'>
-                        <Table>
-                            <TableHead className='tHeader'>
-                                <TableRow >
-                                    <TableCell className='textHead'>Nombre</TableCell>
-                                    <TableCell className='textHead'>Apellido</TableCell>
-                                    <TableCell className='textHead'>Correo</TableCell>
-                                    <TableCell className='textHead'>Cédula</TableCell>
-                                    <TableCell className='textHead'>Teléfono</TableCell>
-                                    <TableCell className='textHead'>Editar</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                            {filteredRows.map((row) => (
-                                <TableRow key={row.name} >
-                                    <TableCell>{row.name}</TableCell>
-                                    <TableCell>{row.lastname}</TableCell>
-                                    <TableCell>{row.email}</TableCell>
-                                    <TableCell>{row.id}</TableCell>
-                                    <TableCell>{row.phone}</TableCell>
-                                    <TableCell><IconButton className='editBtn'><EditIcon/></IconButton></TableCell>
-                                </TableRow>
-                            ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                    <TablaComponents rows={filteredRows} columns={columns} columnsName={columnsName}/>
                 </div>
             </Paper>
         </div>
