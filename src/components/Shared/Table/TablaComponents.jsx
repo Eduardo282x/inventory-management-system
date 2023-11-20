@@ -26,7 +26,11 @@ export const TablaComponents = ({columns, rows, columnsName}) => {
                         {rows.map((row, index) => (
                             <TableRow key={index}>
                                 {columnsName.map((ro) => (
-                                    <TableCell key={ro}>{row[ro]}</TableCell>
+                                    <TableCell key={ro}>
+                                        {ro.type == 'string' ? row[ro.column] : '' }
+                                        {ro.type == 'mm' ? row[ro.column] + 'mm': '' }
+                                        {ro.type == 'price' ? row[ro.column] + '$' : '' }
+                                    </TableCell>
                                 ))}
                                 <TableCell>
                                     <IconButton className="editBtn">

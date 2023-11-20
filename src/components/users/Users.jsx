@@ -1,13 +1,12 @@
-import { useState } from 'react';
-import './users.css'
-import { Button } from '@mui/material';
+import { TablaComponents } from '../Shared/Table/TablaComponents';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useNavigate } from "react-router-dom";
-import Paper from '@mui/material/Paper';
 import GroupIcon from '@mui/icons-material/Group';
 import TextField from '@mui/material/TextField';
-
-import { TablaComponents } from '../Shared/Table/TablaComponents';
+import { useNavigate } from "react-router-dom";
+import Paper from '@mui/material/Paper';
+import { Button } from '@mui/material';
+import { useState } from 'react';
+import './users.css'
 
 export const Users = () => {
 
@@ -33,7 +32,27 @@ export const Users = () => {
     ];
 
     const columns = ['Nombre','Apellido','Correo','Cédula','Teléfono','Editar']
-    const columnsName = ['name','lastname','email','id','phone',]
+    const columnsName = [
+    {
+        column:'name',
+        type:'string',
+    },
+    {
+        column:'lastname',
+        type:'string',
+    },
+    {
+        column:'email',
+        type:'string',
+    },
+    {
+        column:'id',
+        type:'string',
+    },
+    {
+        column:'phone',
+        type:'string',
+    }]
 
     const filteredRows = rows.filter((row) =>
         row.name.toLowerCase().includes(filterText.toLowerCase()) ||
