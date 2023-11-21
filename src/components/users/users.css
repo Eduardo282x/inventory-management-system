@@ -22,8 +22,16 @@
 .inputFilter{
     width: 100%;
     margin: 0 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .filter{
     width: 100%;
+}
+
+.btnAdd{
+    margin-left: 1rem !important;
+    transform: scale(1.2);
 }

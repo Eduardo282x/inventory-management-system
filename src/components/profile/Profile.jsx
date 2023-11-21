@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
-import { useState } from 'react';
+// import { useState } from 'react';
 
 export const Profile = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ export const Profile = () => {
 
   const userData = JSON.parse(localStorage.getItem('userData'))
 
-  const [nombre,setNombre] = useState(userData.nombre)
+  const nombre = userData.nombre
 
   console.log(userData);
 

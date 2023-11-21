@@ -1,16 +1,80 @@
 import { TablaComponents } from '../Shared/Table/TablaComponents';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import GroupIcon from '@mui/icons-material/Group';
+import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
+import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
 import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
 import { useState } from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
 import './users.css'
+import { FormGenerator } from '../Shared/FormGenerator/FormGenerator';
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    borderRadius: '1rem',
+    boxShadow: 24,
+    p: 4,
+};
 
 export const Users = () => {
 
     const navigate = useNavigate();
+
+    const [openModal, setOpenModal] = useState(false);
+    const handleOpen = () => setOpenModal(true);
+    const handleClose = () => setOpenModal(false);
+
+    const bodySend = {    
+        Name: '',
+        LastName: '',
+        Email: '',
+        Id: '',
+        Phone: '',
+    }
+
+    const dataForm =[
+        {
+            label: 'Nombre',
+            input: true,
+            type: 'text',
+            name: 'Name'
+        },
+        {
+            label: 'Apellido',
+            input: true,
+            type: 'text',
+            name: 'LastName'
+        },
+        {
+            label: 'Correo',
+            input: true,
+            type: 'email',
+            name: 'Email'
+        },
+        {
+            label: 'Cedula',
+            input: true,
+            type: 'number',
+            name: 'Id'
+        },
+        {
+            label: 'Telefono',
+            input: true,
+            type: 'phone',
+            name: 'Phone'
+        },
+    ]
 
     function createData(name, lastname, email, id, phone) {
         return { name, lastname, email, id, phone };
@@ -62,10 +126,12 @@ export const Users = () => {
         row.phone.includes(filterText)
     );
     
-
-    const goBack = () => {
-        navigate(-1);
+    const getDataChild = (data) => {
+        handleClose()
+        console.log(data);
     }
+
+    const goBack = () => {navigate(-1);}
     
     return (
         <div className="log">
@@ -85,11 +151,37 @@ export const Users = () => {
                             value={filterText}
                             onChange={handleFilterChange}
                         />
+
+                        <IconButton color="primary" aria-label="add" className='btnAdd' onClick={handleOpen}>
+                            <AddIcon/>
+                        </IconButton>
                     </div>
                 </div>
 
                 <div className="tableContent">
                     <TablaComponents rows={filteredRows} columns={columns} columnsName={columnsName}/>
+                </div>
+
+                <div className="modal">
+                <Modal
+                    aria-labelledby="transition-modal-title"
+                    aria-describedby="transition-modal-description"
+                    open={openModal}
+                    onClose={handleClose}
+                    closeAfterTransition
+                    slots={{ backdrop: Backdrop }}
+                    slotProps={{
+                    backdrop: {
+                        timeout: 500,
+                    },
+                    }}
+                >
+                    <Fade in={openModal}>
+                    <Box sx={style}>
+                        <FormGenerator title={'Agregar Usuario'} dataForm={dataForm} bodySend={bodySend} sendFather={getDataChild}/>
+                    </Box>
+                    </Fade>
+                </Modal>
                 </div>
             </Paper>
         </div>
