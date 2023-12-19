@@ -15,10 +15,7 @@ export const Profile = () => {
   }
 
   const userData = JSON.parse(localStorage.getItem('userData'))
-
-  const nombre = userData.nombre
-
-  console.log(userData);
+  const nombre = userData ? userData.nombre : 'hola'
 
   // setTimeout(() => {
   //   setNombre(userData.nombre)

@@ -56,20 +56,21 @@ export const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(loginData);
-        axios.post('/authentication', loginData).then((response) => {
-            setOpen(true);
-            setMessageType(response.data.success ? 'success' : 'error');
-            if(response && response.data.success){
-                localStorage.setItem('userData', JSON.stringify(response.data.userData));
-                setMessage(response.data.message);
-                setTimeout(() => {
-                    navigate("/home");
-                }, 1500);
-            }
-            else {
-                setMessage(response.data.message);
-            }
-        })
+        navigate("/home");
+        // axios.post('/authentication', loginData).then((response) => {
+        //     setOpen(true);
+        //     setMessageType(response.data.success ? 'success' : 'error');
+        //     if(response && response.data.success){
+        //         localStorage.setItem('userData', JSON.stringify(response.data.userData));
+        //         setMessage(response.data.message);
+        //         setTimeout(() => {
+        //             navigate("/home");
+        //         }, 1500);
+        //     }
+        //     else {
+        //         setMessage(response.data.message);
+        //     }
+        // })
 
         if (loginData.Username === "" || loginData.Password === "") {
             setError(true);
