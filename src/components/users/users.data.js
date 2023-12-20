@@ -1,37 +1,23 @@
-
-function createData(name, lastname, email, id, phone) {
-    return { name, lastname, email, id, phone };
-}
-
-export const rows = [
-    createData('admin', 'admin', 'email', '28391325', '+58 4165610813'),
-    createData('Jorge', 'García', 'jorge.garcia@example.com', '28391325', '+58 4165610813'),
-    createData('María', 'Hernández', 'maria.hernandez@example.com', '19876543', '+58 4241234567'),
-    createData('Luis', 'Martínez', 'luis.martinez@example.com', '12345678', '+58 4149876543'),
-    createData('Ana', 'González', 'emana.gonzalez@example.comail', '87654321', '+58 4161234567'),
-    createData('Carlos', 'Pérez', 'carlos.perez@example.com', '87654321', '+58 4249876543'),
-];
-
 export const columns = ['Nombre', 'Apellido', 'Correo', 'Cédula', 'Teléfono', 'Editar']
 export const columnsName = [
     {
-        column: 'name',
+        column: 'Name',
         type: 'string',
     },
     {
-        column: 'lastname',
+        column: 'Lastname',
         type: 'string',
     },
     {
-        column: 'email',
+        column: 'Email',
         type: 'string',
     },
     {
-        column: 'id',
+        column: 'Identify',
         type: 'string',
     },
     {
-        column: 'phone',
+        column: 'Phone',
         type: 'string',
     }]
 

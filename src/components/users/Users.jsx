@@ -7,17 +7,17 @@ import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
 import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import { FormGenerator } from '../Shared/FormGenerator/FormGenerator';
-import { rows,columns,columnsName, style, dataForm, bodySend } from './users.data';
+import { columns,columnsName, style, dataForm, bodySend } from './users.data';
+import { getDataApi } from '../../backend/BasicAxios'
 import './users.css'
 
 export const Users = () => {
-
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
     const handleOpen = () => setOpenModal(true);
@@ -27,19 +27,31 @@ export const Users = () => {
     const handleFilterChange = (event) => {
         setFilterText(event.target.value);
     };
-
-    const filteredRows = rows.filter((row) =>
-        row.name.toLowerCase().includes(filterText.toLowerCase()) ||
-        row.lastname.toLowerCase().includes(filterText.toLowerCase()) ||
-        row.email.toLowerCase().includes(filterText.toLowerCase()) ||
-        row.id.includes(filterText) ||
-        row.phone.includes(filterText)
-    );
     
     const getDataChild = (data) => {
         handleClose()
         console.log(data);
     }
+
+    const [rows,setRows] = useState([])
+
+    useEffect(()=> {
+        getDataApi('users').then((data)=> {
+            console.log(data);
+            setRows(data);
+            console.log(rows);
+        }).catch(err => {
+            console.log(err);
+        })
+    }, []);
+
+    const filteredRows = rows.filter((row) =>
+        row.Name.toLowerCase().includes(filterText.toLowerCase()) ||
+        row.Lastname.toLowerCase().includes(filterText.toLowerCase()) ||
+        row.Email.toLowerCase().includes(filterText.toLowerCase()) ||
+        row.Identify.includes(filterText) ||
+        row.Phone.includes(filterText)
+    );
 
     const goBack = () => {navigate(-1);}
     

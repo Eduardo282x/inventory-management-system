@@ -14,7 +14,7 @@ import FormControl from '@mui/material/FormControl';
 import { useNavigate } from "react-router-dom";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-import axios from '../../env/axios-instance';
+import { postDataApi } from "../../backend/BasicAxios";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -55,22 +55,20 @@ export const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(loginData);
-        navigate("/home");
-        // axios.post('/authentication', loginData).then((response) => {
-        //     setOpen(true);
-        //     setMessageType(response.data.success ? 'success' : 'error');
-        //     if(response && response.data.success){
-        //         localStorage.setItem('userData', JSON.stringify(response.data.userData));
-        //         setMessage(response.data.message);
-        //         setTimeout(() => {
-        //             navigate("/home");
-        //         }, 1500);
-        //     }
-        //     else {
-        //         setMessage(response.data.message);
-        //     }
-        // })
+
+        postDataApi('/authentication', loginData).then((data) => {
+            setOpen(true);
+            setMessageType(data.success ? 'success' : 'error');
+            setMessage(data.message);
+            if(data.success){
+                localStorage.setItem('userData', JSON.stringify(data.userData));
+                setTimeout(() => {
+                    navigate("/home");
+                }, 1500);
+            }
+        }).catch(err =>{
+            console.log(err);
+        });
 
         if (loginData.Username === "" || loginData.Password === "") {
             setError(true);
