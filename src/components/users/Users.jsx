@@ -35,14 +35,16 @@ export const Users = () => {
 
     const [rows,setRows] = useState([])
 
-    useEffect(()=> {
+    const getUsers = () => {
         getDataApi('users').then((data)=> {
-            console.log(data);
             setRows(data);
-            console.log(rows);
         }).catch(err => {
             console.log(err);
         })
+    }
+
+    useEffect(()=> {
+        getUsers();
     }, []);
 
     const filteredRows = rows.filter((row) =>

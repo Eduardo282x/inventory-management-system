@@ -126,7 +126,7 @@ export const Login = () => {
                     />
                 </FormControl> 
 
-                <Button variant="outlined" onClick={handleSubmit}>
+                <Button variant="outlined" type="submit" onClick={handleSubmit}>
                     Iniciar Sesión
                 </Button>
                 {error && <p className="errorMessage">Todos los campos son obligatorios</p>}

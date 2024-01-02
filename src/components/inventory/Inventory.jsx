@@ -5,18 +5,33 @@ import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
-import { useState } from "react";
-import { columns, rows, columnsName } from "./inventory.data";
+import { useEffect, useState } from "react";
+import { columns, columnsName } from "./inventory.data";
+import { getDataApi } from "../../backend/BasicAxios";
 import "./inventory.css";
 
 export const Inventory = () => {
   const navigate = useNavigate();
+  const [rows,setRows] = useState([])
+  const [filterText, setFilterText] = useState("");
+
 
   const goBack = () => {
     navigate(-1);
   };
 
-  const [filterText, setFilterText] = useState("");
+  const getInventory = () => {
+    getDataApi('inventory').then((data)=> {
+      setRows(data);
+    }).catch(err => {
+        console.log(err);
+    })
+  }
+
+  useEffect(() => {
+    getInventory()
+  }, [])
+
 
   const handleFilterChange = (event) => {
     setFilterText(event.target.value);
@@ -24,12 +39,8 @@ export const Inventory = () => {
 
   const filteredRows = rows.filter(
     (row) =>
-      row.code.toLowerCase().includes(filterText.toLowerCase()) ||
-      row.description.toLowerCase().includes(filterText.toLowerCase())
-    // row.axis.toLowerCase().includes(filterText.toLowerCase()) ||
-    // row.height.includes(filterText) ||
-    // row.amount.includes(filterText) ||
-    // row.price.includes(filterText)
+      row.Code.toLowerCase().includes(filterText.toLowerCase()) ||
+      row.Description.toLowerCase().includes(filterText.toLowerCase())
   );
   
   return (
@@ -40,7 +51,7 @@ export const Inventory = () => {
             <Button variant="contained" onClick={goBack}>
               <ArrowBackIcon className="back" />
             </Button>
-            <h1>
+            <h1 className="font-semibold">
               <InventoryIcon className="groupIcon" />
               Inventario
             </h1>
