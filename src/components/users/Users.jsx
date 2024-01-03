@@ -101,9 +101,14 @@ export const Users = () => {
                     }}
                 >
                     <Fade in={openModal}>
-                    <Box sx={style}>
-                        <FormGenerator title={'Agregar Usuario'} dataForm={dataForm} bodySend={bodySend} sendFather={getDataChild}/>
-                    </Box>
+                        <Box sx={style}>
+                            <FormGenerator
+                                title={'Agregar Usuario'}
+                                dataForm={dataForm}
+                                bodySend={bodySend}
+                                sendFather={getDataChild}
+                            />
+                        </Box>
                     </Fade>
                 </Modal>
                 </div>

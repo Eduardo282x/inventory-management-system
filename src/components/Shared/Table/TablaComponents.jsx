@@ -69,16 +69,19 @@ export const TablaComponents = ({columns, rows, columnsName}) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[5,10, 25,50,100]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                labelRowsPerPage={'Paginas'}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            {rows.length > 5 ?
+                <TablePagination
+                    rowsPerPageOptions={[5,10,25,50,100]}
+                    component="div"
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    labelRowsPerPage={'Paginas'}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+                :''
+            }
         </div>
     );
 };

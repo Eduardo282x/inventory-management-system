@@ -3,42 +3,59 @@ import TextField from '@mui/material/TextField';
 import './formGenerator.css'
 import { Button } from '@mui/material';
 import { useState } from "react";
+import { useFormik } from "formik";
+// import * as yup from 'yup';
 
 export const FormGenerator = ({title, dataForm, bodySend, sendFather}) => {
-    const [data, setData] = useState(bodySend)
 
-    const setDataInput = (event) => {
-        const { name, value } = event.target;
-        setData({ ...data, [name]: value });
-    };
+    // const validationSchema = yup.object({
+    //     email: yup
+    //         .string('Enter your email')
+    //         .email('Enter a valid email')
+    //         .required('Email is required'),
+    //     password: yup
+    //         .string('Enter your password')
+    //         .min(8, 'Password should be of minimum 8 characters length')
+    //         .required('Password is required'),
+    // });
 
-    const submitBtn = () => {
-        sendFather(data)
-        console.log(data);
+    const submitBtn = (values) => {
+        // sendFather(data)
+        console.log(values);
     }
 
+    const formik = useFormik({
+        initialValues: bodySend,
+        // validationSchema: validationSchema,
+        onSubmit: (values) => console.log(values),
+    })
+
     return (
-        <div className="formData">
-            <h2>{title}</h2>
+        <div>
+            <form onSubmit={formik.handleSubmit} className="flex flex-col items-center justify-center gap-5">
+                <h2>{title}</h2>
 
-            {dataForm.map((formInput,index) => (
-                <TextField 
-                    error={data[formInput.name] == '' ? true : false }
-                    required
-                    className="inputField"
-                    key={index}  
-                    name={formInput.name}
-                    value={data[formInput.name]}
-                    onChange={()=>setDataInput(event)}
-                    label={formInput.label} 
-                    type={formInput.type}
-                    variant="outlined" 
-                />
-            ))}
+                {dataForm.map((formInput,index) => (
+                    <TextField 
+                        // error={formik[formInput.name] == '' ? true : false }
+                        // required
+                        className="inputField"
+                        label={formInput.label} 
+                        type={formInput.type}
+                        key={index}  
+                        name={formInput.name}
+                        value={formik.values[formInput.name]}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched[formInput.name] && Boolean(formik.errors[formInput.name])}
+                        variant="outlined" 
+                    />
+                ))}
 
-            <Button onClick={submitBtn} variant="contained">
-                Enviar
-            </Button>
+                <Button type="submit" variant="contained">
+                    Enviar
+                </Button>
+            </form>
         </div>
     )
 }
