@@ -1,3 +1,5 @@
+import * as yup from 'yup';
+
 export const columns = ['Nombre', 'Apellido', 'Correo', 'Cédula', 'Teléfono', 'Editar']
 export const columnsName = [
     {
@@ -35,41 +37,54 @@ export const style = {
 
 export const bodySend = {    
     Name: '',
-    LastName: '',
+    Lastname: '',
     Email: '',
-    Id: '',
+    Identify: '',
     Phone: '',
 }
+
+export const validationSchema = yup.object({
+    Name : yup.string().required('El nombre es requerido'),
+    Lastname : yup.string().required('El apellido es requerido'),
+    Email : yup.string().email('Ingresa un correo valido').required('El correo es requerido'),
+    Identify : yup.string().min(8, 'La cedula debe contener minimo 8 caracteres').required('La cedula es requerida'),
+    Phone : yup.string().min(11, 'El telefono debe contener minimo 11 caracteres').required('El telefono es requerido'),
+});
 
 export const dataForm =[
     {
         label: 'Nombre',
         input: true,
         type: 'text',
-        name: 'Name'
+        name: 'Name',
+        value: '',
     },
     {
         label: 'Apellido',
         input: true,
         type: 'text',
-        name: 'LastName'
+        name: 'Lastname',
+        value: '',
     },
     {
         label: 'Correo',
         input: true,
         type: 'email',
-        name: 'Email'
+        name: 'Email',
+        value: '',
     },
     {
         label: 'Cedula',
         input: true,
         type: 'number',
-        name: 'Id'
+        name: 'Identify',
+        value: '',
     },
     {
         label: 'Telefono',
         input: true,
         type: 'phone',
-        name: 'Phone'
+        name: 'Phone',
+        value: '',
     },
 ]

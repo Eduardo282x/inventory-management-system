@@ -2,23 +2,3 @@
     width: 30vw;
     height: 80vh;
 }
-
-.profileCenter{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
-.profileInfo{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* border: 2px solid; */
-}
-
-.profileContent{
-    display: flex;
-    flex-direction: column;
-}

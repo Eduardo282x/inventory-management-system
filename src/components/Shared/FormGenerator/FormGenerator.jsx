@@ -2,32 +2,18 @@ import PropTypes from "prop-types";
 import TextField from '@mui/material/TextField';
 import './formGenerator.css'
 import { Button } from '@mui/material';
-import { useState } from "react";
 import { useFormik } from "formik";
-// import * as yup from 'yup';
 
-export const FormGenerator = ({title, dataForm, bodySend, sendFather}) => {
-
-    // const validationSchema = yup.object({
-    //     email: yup
-    //         .string('Enter your email')
-    //         .email('Enter a valid email')
-    //         .required('Email is required'),
-    //     password: yup
-    //         .string('Enter your password')
-    //         .min(8, 'Password should be of minimum 8 characters length')
-    //         .required('Password is required'),
-    // });
+export const FormGenerator = ({title, dataForm, bodySend, validationSchema, action, sendFather}) => {
 
     const submitBtn = (values) => {
-        // sendFather(data)
-        console.log(values);
+        sendFather({action: action, data: values});
     }
 
     const formik = useFormik({
         initialValues: bodySend,
-        // validationSchema: validationSchema,
-        onSubmit: (values) => console.log(values),
+        validationSchema: validationSchema,
+        onSubmit: (values) => submitBtn(values),
     })
 
     return (
@@ -48,6 +34,7 @@ export const FormGenerator = ({title, dataForm, bodySend, sendFather}) => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         error={formik.touched[formInput.name] && Boolean(formik.errors[formInput.name])}
+                        helperText={formik.touched[formInput.name] && formik.errors[formInput.name]}
                         variant="outlined" 
                     />
                 ))}
@@ -65,5 +52,7 @@ FormGenerator.propTypes = {
     title: PropTypes.string,
     dataForm: PropTypes.array,
     bodySend: PropTypes.object,
-    sendFather: PropTypes.func
+    sendFather: PropTypes.func,
+    validationSchema: PropTypes.any,
+    action: PropTypes.string
 };

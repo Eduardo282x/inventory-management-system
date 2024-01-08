@@ -23,13 +23,17 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-export const TablaComponents = ({columns, rows, columnsName}) => {
+export const TablaComponents = ({columns, rows, columnsName, sendFather}) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
+
+    const sendData = (row) => {
+        sendFather({action: 'edit', data: row})
+    }
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
@@ -60,7 +64,7 @@ export const TablaComponents = ({columns, rows, columnsName}) => {
                                     </TableCell>
                                 ))}
                                 <TableCell>
-                                    <IconButton className="editBtn">
+                                    <IconButton className="editBtn" onClick={() => sendData(row)}>
                                         <EditIcon />
                                     </IconButton>
                                 </TableCell>
@@ -91,4 +95,5 @@ TablaComponents.propTypes = {
     columns: PropTypes.array,
     rows: PropTypes.array,
     columnsName: PropTypes.array,
+    sendFather: PropTypes.func
 };

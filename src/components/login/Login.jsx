@@ -79,9 +79,9 @@ export const Login = () => {
     };
 
     return (
-        <div className="loginBackground">
-            <form className="login" onSubmit={handleSubmit}>
-                <h1>Login</h1>
+        <div className="w-screen h-screen flex items-center justify-center">
+            <form className="flex flex-col items-center justify-center gap-4 py-4 px-8 rounded-3xl bg-white w-[25rem] h-[30rem] shadow-2xl" onSubmit={handleSubmit}>
+                <h1 className="font-semibold text-[#1976d2] text-4xl">Login</h1>
 
                 <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
                     <InputLabel htmlFor="inputUser">Usuario</InputLabel>
@@ -129,7 +129,7 @@ export const Login = () => {
                 <Button variant="outlined" type="submit" onClick={handleSubmit}>
                     Iniciar Sesión
                 </Button>
-                {error && <p className="errorMessage">Todos los campos son obligatorios</p>}
+                {error && <p className="text-red-500">Todos los campos son obligatorios</p>}
             </form>
 
             <Snackbar open={open} autoHideDuration={2000} onClose={handleClose} anchorOrigin={position}>

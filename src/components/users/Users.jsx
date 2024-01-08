@@ -13,13 +13,15 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import { FormGenerator } from '../Shared/FormGenerator/FormGenerator';
-import { columns,columnsName, style, dataForm, bodySend } from './users.data';
-import { getDataApi } from '../../backend/BasicAxios'
+import { columns,columnsName, style, dataForm, bodySend, validationSchema } from './users.data';
+import { getDataApi, postDataApi } from '../../backend/BasicAxios'
 import './users.css'
 
 export const Users = () => {
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
+    const [actionForm, setActionForm] = useState('add');
+    const [bodyForm, setBodyForm] = useState(bodySend);
     const handleOpen = () => setOpenModal(true);
     const handleClose = () => setOpenModal(false);
     const [filterText, setFilterText] = useState('');
@@ -27,10 +29,52 @@ export const Users = () => {
     const handleFilterChange = (event) => {
         setFilterText(event.target.value);
     };
+
+    const openNew = () => {
+        setBodyForm(bodySend)
+        handleOpen()
+    }
     
     const getDataChild = (data) => {
+        console.log(data.action);
+        if(data.action == 'add'){
+            handleClose()
+            addUser(data)
+        }
+
+        if(data.action == 'edit'){
+
+            const dataEdit = {
+                Name: data.data.Name,
+                Lastname: data.data.Lastname,
+                Email: data.data.Email,
+                Identify: data.data.Identify,
+                Phone: data.data.Phone,
+            }
+            setActionForm('edit')
+            setBodyForm(dataEdit)
+            console.log(data.data);
+            handleOpen()
+            // editUser(data)
+        }
+    }
+
+    const editUser = (userEdit) => {
         handleClose()
-        console.log(data);
+
+        postDataApi('users/edit', userEdit).then((data) => {
+            console.log(data);
+            getUsers();
+        }).catch(err => console.log(err))
+
+        setActionForm('add')
+    }
+
+    const addUser = (newUser) => {
+        postDataApi('users/add', newUser).then((data) => {
+            console.log(data);
+            getUsers();
+        }).catch(err => console.log(err))
     }
 
     const [rows,setRows] = useState([])
@@ -76,14 +120,14 @@ export const Users = () => {
                             onChange={handleFilterChange}
                         />
 
-                        <IconButton color="primary" aria-label="add" className='btnAdd' onClick={handleOpen}>
+                        <IconButton color="primary" aria-label="add" className='btnAdd' onClick={openNew}>
                             <AddIcon/>
                         </IconButton>
                     </div>
                 </div>
 
                 <div className="tableContent">
-                    <TablaComponents rows={filteredRows} columns={columns} columnsName={columnsName}/>
+                    <TablaComponents rows={filteredRows} columns={columns} columnsName={columnsName} sendFather={getDataChild}/>
                 </div>
 
                 <div className="modal">
@@ -105,7 +149,9 @@ export const Users = () => {
                             <FormGenerator
                                 title={'Agregar Usuario'}
                                 dataForm={dataForm}
-                                bodySend={bodySend}
+                                bodySend={bodyForm}
+                                action={actionForm}
+                                validationSchema={validationSchema}
                                 sendFather={getDataChild}
                             />
                         </Box>
