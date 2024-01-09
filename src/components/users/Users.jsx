@@ -32,19 +32,24 @@ export const Users = () => {
 
     const openNew = () => {
         setBodyForm(bodySend)
+        setActionForm('add')
         handleOpen()
     }
     
     const getDataChild = (data) => {
-        console.log(data.action);
         if(data.action == 'add'){
             handleClose()
-            addUser(data)
+            addUser(data.data)
         }
 
         if(data.action == 'edit'){
+            handleClose()
+            editUser(data.data)
+        }
 
+        if(data.action == 'get'){
             const dataEdit = {
+                Id: data.data.Id,
                 Name: data.data.Name,
                 Lastname: data.data.Lastname,
                 Email: data.data.Email,
@@ -53,9 +58,7 @@ export const Users = () => {
             }
             setActionForm('edit')
             setBodyForm(dataEdit)
-            console.log(data.data);
             handleOpen()
-            // editUser(data)
         }
     }
 
@@ -63,8 +66,7 @@ export const Users = () => {
         handleClose()
 
         postDataApi('users/edit', userEdit).then((data) => {
-            console.log(data);
-            getUsers();
+            if(data.success){ getUsers()}
         }).catch(err => console.log(err))
 
         setActionForm('add')
@@ -72,8 +74,7 @@ export const Users = () => {
 
     const addUser = (newUser) => {
         postDataApi('users/add', newUser).then((data) => {
-            console.log(data);
-            getUsers();
+            if(data.success){ getUsers()}
         }).catch(err => console.log(err))
     }
 

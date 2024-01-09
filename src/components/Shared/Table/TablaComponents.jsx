@@ -32,7 +32,7 @@ export const TablaComponents = ({columns, rows, columnsName, sendFather}) => {
     };
 
     const sendData = (row) => {
-        sendFather({action: 'edit', data: row})
+        sendFather({action: 'get', data: row})
     }
 
     const handleChangeRowsPerPage = (event) => {
@@ -56,8 +56,8 @@ export const TablaComponents = ({columns, rows, columnsName, sendFather}) => {
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row, index) => (
                             <TableRow key={index}>
-                                {columnsName.map((ro) => (
-                                    <TableCell key={ro}>
+                                {columnsName.map((ro, key) => (
+                                    <TableCell key={key}>
                                         {ro.type == 'string' ? row[ro.column] : '' }
                                         {ro.type == 'mm' ? row[ro.column] + 'mm': '' }
                                         {ro.type == 'price' ? row[ro.column] + '$' : '' }
