@@ -132,19 +132,19 @@ export const Users = () => {
                 </div>
 
                 <div className="modal">
-                <Modal
-                    aria-labelledby="transition-modal-title"
-                    aria-describedby="transition-modal-description"
-                    open={openModal}
-                    onClose={handleClose}
-                    closeAfterTransition
-                    slots={{ backdrop: Backdrop }}
-                    slotProps={{
-                    backdrop: {
-                        timeout: 500,
-                    },
-                    }}
-                >
+                    <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        open={openModal}
+                        onClose={handleClose}
+                        closeAfterTransition
+                        slots={{ backdrop: Backdrop }}
+                        slotProps={{
+                        backdrop: {
+                            timeout: 500,
+                        },
+                        }}
+                    >
                     <Fade in={openModal}>
                         <Box sx={style}>
                             <FormGenerator
