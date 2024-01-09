@@ -13,7 +13,10 @@ export const Banner = () => {
   return (
     <div className='bannerBackground'>
       <div className="bannerDisplay">
-        <h1>Sistema de Inventario</h1>
+        <div className="flex items-center justify-center gap-2">
+          <div className="logo"></div>
+          <h1>Sistema de Inventario</h1>
+        </div>
         <MenuIcon onClick={menu} className='menuIcon'></MenuIcon>
         {openMenu ? <DropDownMenu close={setOpenMenu}/> : <></>}
       </div>

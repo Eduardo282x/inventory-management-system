@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body{
   background-image: url('./assets/images/stock-photo-minimalistic-dark-blue-polygonal-background.jpeg');
   background-position: center;
@@ -16,3 +20,22 @@ body{
   color: #fff;
 }
 
+.paperWidh{
+  width: 80vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 40rem;
+}
+
+.tableContent{
+  position: relative;
+  height:70%;
+  width: 100%;
+  margin-bottom: 4rem;
+  display: flex;
+  overflow-y: hidden;
+  justify-content: center;
+  align-items: flex-start;
+}

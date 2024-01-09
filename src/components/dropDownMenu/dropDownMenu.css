@@ -25,12 +25,12 @@
     z-index: 1000;
     background: #fff;
     border-radius: .5rem;
-    padding: 0 .5rem;
+    padding: .5rem;
     width: 12rem !important;
     position: absolute;
     top: 4rem;
     right: 2rem;
-    width: 20rem;
+    width: 14rem;
     box-shadow: 10px 10px 10px #000;
 }
 

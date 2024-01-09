@@ -1,52 +1,106 @@
-import { useState } from 'react';
-import './users.css'
-import { Button } from '@mui/material';
+import { TablaComponents } from '../Shared/Table/TablaComponents';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import GroupIcon from '@mui/icons-material/Group';
+import IconButton from '@mui/material/IconButton';
+import TextField from '@mui/material/TextField';
+import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
 import Paper from '@mui/material/Paper';
-import GroupIcon from '@mui/icons-material/Group';
-import TextField from '@mui/material/TextField';
-
-import { TablaComponents } from '../Shared/Table/TablaComponents';
+import { Button } from '@mui/material';
+import { useEffect, useState } from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+import { FormGenerator } from '../Shared/FormGenerator/FormGenerator';
+import { columns,columnsName, style, dataForm, bodySend, validationSchema } from './users.data';
+import { getDataApi, postDataApi } from '../../backend/BasicAxios'
+import './users.css'
 
 export const Users = () => {
-
     const navigate = useNavigate();
-
-    function createData(name, lastname, email, id, phone) {
-        return { name, lastname, email, id, phone };
-    }
-
+    const [openModal, setOpenModal] = useState(false);
+    const [actionForm, setActionForm] = useState('add');
+    const [bodyForm, setBodyForm] = useState(bodySend);
+    const handleOpen = () => setOpenModal(true);
+    const handleClose = () => setOpenModal(false);
     const [filterText, setFilterText] = useState('');
 
     const handleFilterChange = (event) => {
         setFilterText(event.target.value);
     };
-    
-    const rows = [
-        createData('admin', 'admin', 'email', '28391325', '+58 4165610813'),
-        createData('Jorge', 'García', 'jorge.garcia@example.com', '28391325', '+58 4165610813'),
-        createData('María', 'Hernández', 'maria.hernandez@example.com', '19876543', '+58 4241234567'),
-        createData('Luis', 'Martínez', 'luis.martinez@example.com', '12345678', '+58 4149876543'),
-        createData('Ana', 'González', 'emana.gonzalez@example.comail', '87654321', '+58 4161234567'),
-        createData('Carlos', 'Pérez', 'carlos.perez@example.com', '87654321', '+58 4249876543'),
-    ];
 
-    const columns = ['Nombre','Apellido','Correo','Cédula','Teléfono','Editar']
-    const columnsName = ['name','lastname','email','id','phone',]
+    const openNew = () => {
+        setBodyForm(bodySend)
+        setActionForm('add')
+        handleOpen()
+    }
+    
+    const getDataChild = (data) => {
+        if(data.action == 'add'){
+            handleClose()
+            addUser(data.data)
+        }
+
+        if(data.action == 'edit'){
+            handleClose()
+            editUser(data.data)
+        }
+
+        if(data.action == 'get'){
+            const dataEdit = {
+                Id: data.data.Id,
+                Name: data.data.Name,
+                Lastname: data.data.Lastname,
+                Email: data.data.Email,
+                Identify: data.data.Identify,
+                Phone: data.data.Phone,
+            }
+            setActionForm('edit')
+            setBodyForm(dataEdit)
+            handleOpen()
+        }
+    }
+
+    const editUser = (userEdit) => {
+        handleClose()
+
+        postDataApi('users/edit', userEdit).then((data) => {
+            if(data.success){ getUsers()}
+        }).catch(err => console.log(err))
+
+        setActionForm('add')
+    }
+
+    const addUser = (newUser) => {
+        postDataApi('users/add', newUser).then((data) => {
+            if(data.success){ getUsers()}
+        }).catch(err => console.log(err))
+    }
+
+    const [rows,setRows] = useState([])
+
+    const getUsers = () => {
+        getDataApi('users').then((data)=> {
+            setRows(data);
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
+    useEffect(()=> {
+        getUsers();
+    }, []);
 
     const filteredRows = rows.filter((row) =>
-        row.name.toLowerCase().includes(filterText.toLowerCase()) ||
-        row.lastname.toLowerCase().includes(filterText.toLowerCase()) ||
-        row.email.toLowerCase().includes(filterText.toLowerCase()) ||
-        row.id.includes(filterText) ||
-        row.phone.includes(filterText)
+        row.Name.toLowerCase().includes(filterText.toLowerCase()) ||
+        row.Lastname.toLowerCase().includes(filterText.toLowerCase()) ||
+        row.Email.toLowerCase().includes(filterText.toLowerCase()) ||
+        row.Identify.includes(filterText) ||
+        row.Phone.includes(filterText)
     );
-    
 
-    const goBack = () => {
-        navigate(-1);
-    }
+    const goBack = () => {navigate(-1);}
     
     return (
         <div className="log">
@@ -66,11 +120,44 @@ export const Users = () => {
                             value={filterText}
                             onChange={handleFilterChange}
                         />
+
+                        <IconButton color="primary" aria-label="add" className='btnAdd' onClick={openNew}>
+                            <AddIcon/>
+                        </IconButton>
                     </div>
                 </div>
 
                 <div className="tableContent">
-                    <TablaComponents rows={filteredRows} columns={columns} columnsName={columnsName}/>
+                    <TablaComponents rows={filteredRows} columns={columns} columnsName={columnsName} sendFather={getDataChild}/>
+                </div>
+
+                <div className="modal">
+                    <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        open={openModal}
+                        onClose={handleClose}
+                        closeAfterTransition
+                        slots={{ backdrop: Backdrop }}
+                        slotProps={{
+                        backdrop: {
+                            timeout: 500,
+                        },
+                        }}
+                    >
+                    <Fade in={openModal}>
+                        <Box sx={style}>
+                            <FormGenerator
+                                title={'Agregar Usuario'}
+                                dataForm={dataForm}
+                                bodySend={bodyForm}
+                                action={actionForm}
+                                validationSchema={validationSchema}
+                                sendFather={getDataChild}
+                            />
+                        </Box>
+                    </Fade>
+                </Modal>
                 </div>
             </Paper>
         </div>

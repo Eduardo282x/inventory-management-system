@@ -22,3 +22,12 @@
     margin: auto;
     height: 4rem;
 }
+
+.logo{
+    background-image: url('../../assets/Logos/IINCA-08.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 8rem;
+    height: 8rem;
+}

@@ -3,26 +3,6 @@
     margin: 0 1rem;
 }
 
-.tableContent{
-    position: relative;
-    height:70%;
-    width: 100%;
-    display: flex;
-    overflow-y: hidden;
-    
-    justify-content: center;
-    align-items: flex-start;
-}
-
-.paperWidh{
-    width: 80rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 30rem;
-}
-
 .buttonBack{
     display: flex;
     justify-content: flex-start;
@@ -42,8 +22,16 @@
 .inputFilter{
     width: 100%;
     margin: 0 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .filter{
     width: 100%;
+}
+
+.btnAdd{
+    margin-left: 1rem !important;
+    transform: scale(1.2);
 }
