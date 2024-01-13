@@ -53,7 +53,7 @@ export const profileSend = {
 }
 
 export const validationSchema = yup.object({
-    Password : yup.string().min(8, 'Debe contener minimo 8 caracteres'),
+    Password : yup.string().min(8, 'Debe contener minimo 8 caracteres').required(),
 });
 
 export const position = {

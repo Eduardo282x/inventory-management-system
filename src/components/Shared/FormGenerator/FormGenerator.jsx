@@ -19,7 +19,7 @@ export const FormGenerator = ({title, dataForm, bodySend, validationSchema, acti
     return (
         <div>
             <form onSubmit={formik.handleSubmit} className="flex flex-col items-center justify-center gap-5">
-                <h2>{title}</h2>
+                <p className="font-bold text-[20px]">{title}</p>
 
                 {dataForm.map((formInput,index) => (
                     <TextField 
@@ -39,7 +39,7 @@ export const FormGenerator = ({title, dataForm, bodySend, validationSchema, acti
                     />
                 ))}
 
-                <Button type="submit" variant="contained">
+                <Button type="submit" variant="contained" disabled={!formik.isValid}>
                     Enviar
                 </Button>
             </form>

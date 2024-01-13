@@ -8,9 +8,10 @@ import { useFormik } from 'formik';
 import { postDataApi } from '../../backend/BasicAxios';
 import { position } from './profile.data';
 import Snackbar from '@mui/material/Snackbar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MuiAlert from '@mui/material/Alert';
 import * as React from "react";
+
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -19,6 +20,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 export const Profile = () => {
   const [open, setOpen] = useState(false);
   const [messageType, setMessageType] = useState("");
+  const [profile, setProfileData] = useState();
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
         return;
@@ -41,6 +43,17 @@ export const Profile = () => {
     onSubmit: (values) => changeDataProfile(values)
   });
 
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    console.log(profileData);
+
+    const updatedProfileData = profileData.map(item => ({
+      ...item,
+      value: userData[item.name],
+    }));
+    setProfileData(updatedProfileData);
+  }, [localStorage.getItem('userData')]);
+
   return (
     <div className="log">
     <Paper elevation={24} className='w-[30rem] h-[40rem] py-3'>
@@ -50,7 +63,7 @@ export const Profile = () => {
             </div>
 
             <form onSubmit={formik.handleSubmit} className="flex flex-col items-center justify-center w-full gap-5">
-              {profileData.map((input, index )=> (
+              {profile && profile.map((input, index )=> (
                 <TextField
                   disabled={input.disabled}
                   variant="outlined" 
@@ -63,7 +76,7 @@ export const Profile = () => {
                 />
               ))}
               
-              <Button variant="contained" type='submit'>Aceptar</Button>
+              <Button variant="contained" type='submit' disabled={!formik.isValid}>Aceptar</Button>
               
             </form>
         </div>
