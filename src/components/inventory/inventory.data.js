@@ -72,7 +72,7 @@ export const validationSchema = yup.object({
     Price: yup.string().required('Este campo es requerido'),
 });
 
-export const dataForm =[
+export const dataFormAdmin =[
     {
         label: 'Codigo',
         input: true,
@@ -122,4 +122,38 @@ export const dataForm =[
         name: 'Price',
         value: '',
     },
-]
+];
+
+export const dataFormSeller =[
+    {
+        label: 'Codigo',
+        input: true,
+        type: 'text',
+        name: 'Code',
+        readOnly: true,
+        value: '',
+    },
+    {
+        label: 'Descripción',
+        input: true,
+        type: 'text',
+        name: 'Description',
+        readOnly: true,
+        value: '',
+    },
+    {
+        label: 'Cantidad',
+        input: true,
+        type: 'number',
+        name: 'Amount',
+        value: '',
+    },
+    {
+        label: 'Precio',
+        input: true,
+        type: 'number',
+        name: 'Price',
+        readOnly: true,
+        value: '',
+    },
+];

@@ -7,6 +7,7 @@ import {Inventory} from './components/inventory/Inventory'
 import {Profile} from './components/profile/Profile'
 import {Reports} from './components/reports/Reports'
 import {Users} from './components/users/Users'
+import { Cart } from "./components/cart/cart";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/reports",
         element: <Reports />
+      },
+      {
+        path: "/cart",
+        element: <Cart />
       },
       {
         path: "/users",

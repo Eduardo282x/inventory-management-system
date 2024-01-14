@@ -9,8 +9,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import PropTypes from "prop-types";
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import TablePagination from '@mui/material/TablePagination';
+import AddIcon from '@mui/icons-material/Add';
 import './TablaComponents.css';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -23,9 +25,15 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-export const TablaComponents = ({columns, rows, columnsName, sendFather}) => {
+export const TablaComponents = ({columns, rows, columnsName, action ,sendFather}) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    const setIcon = (actionIcon) => {
+        if(actionIcon == 'Edit') return <EditIcon />
+        if(actionIcon == 'Add') return <AddIcon/>
+        if(actionIcon == 'Delete') return <DeleteIcon/>;
+    }
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -65,7 +73,7 @@ export const TablaComponents = ({columns, rows, columnsName, sendFather}) => {
                                 ))}
                                 <TableCell>
                                     <IconButton className="editBtn" onClick={() => sendData(row)}>
-                                        <EditIcon />
+                                        {setIcon(action)}
                                     </IconButton>
                                 </TableCell>
                             </TableRow>
@@ -95,5 +103,6 @@ TablaComponents.propTypes = {
     columns: PropTypes.array,
     rows: PropTypes.array,
     columnsName: PropTypes.array,
-    sendFather: PropTypes.func
+    sendFather: PropTypes.func,
+    action: PropTypes.string
 };
