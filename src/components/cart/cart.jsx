@@ -43,13 +43,15 @@ export const Cart = () => {
     useEffect(()=> {
         getCart();
     }, []);
-
-    if(rows && rows.length > 0){
-        const filteredRows = rows.filter((row) =>
-        row.Description.toLowerCase().includes(filterText.toLowerCase())
-        );
-        setFilteredRows(filteredRows);
-    }
+    
+    useEffect(()=> {
+        if(rows && rows.length > 0){
+            const filteredRows = rows.filter((row) =>
+            row.Description.toLowerCase().includes(filterText.toLowerCase())
+            );
+            setFilteredRows(filteredRows);
+        }
+    }, [rows, filterText]);
 
     const goBack = () => {navigate(-1);}
     
@@ -75,7 +77,7 @@ export const Cart = () => {
                 </div>
 
                 <div className="tableContent">
-                    {rows ?
+                    {rows  && filteredRows.length > 0?
                         <TablaComponents 
                         rows={filteredRows} 
                         action={'Delete'}
