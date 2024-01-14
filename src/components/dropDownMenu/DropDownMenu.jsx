@@ -5,6 +5,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DatasetIcon from '@mui/icons-material/Dataset';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import GroupIcon from '@mui/icons-material/Group';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import './dropDownMenu.css';
 import { useEffect, useState } from "react";
 import { menuOption } from "./dropDownMenu.data";
@@ -33,6 +34,8 @@ export const DropDownMenu = ({close}) => {
         return <DatasetIcon />;
       case 'reports':
         return <DashboardIcon />;
+      case 'cart':
+        return <ShoppingCartIcon />;
       case 'logout':
         return <LogoutIcon />;
       default:

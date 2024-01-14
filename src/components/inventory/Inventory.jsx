@@ -15,19 +15,24 @@ import AddIcon from '@mui/icons-material/Add';
 import Fade from '@mui/material/Fade';
 import { FormGenerator } from '../Shared/FormGenerator/FormGenerator';
 import Backdrop from '@mui/material/Backdrop';
-import {style, dataForm, validationSchema, bodySend} from './inventory.data'
+import {style, dataFormAdmin, dataFormSeller, validationSchema, bodySend} from './inventory.data'
 import "./inventory.css";
 
 export const Inventory = () => {
   const navigate = useNavigate();
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  const [userRol, setUserRol] = useState('');
   const [rows,setRows] = useState([]);
+  const [filteredRows,setFilteredRows] = useState([]);
   const [actionForm, setActionForm] = useState('add');
+  const [actionTable, setActionTable] = useState('Edit');
+  const [columnsInventory, setColumns] = useState(columns);
   const [bodyForm, setBodyForm] = useState(bodySend);
+  const [dataSendForm, setdataSendForm] = useState(dataFormAdmin);
   const [openModal, setOpenModal] = useState(false);
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
   const [filterText, setFilterText] = useState("");
-
 
   const goBack = () => {
     navigate(-1);
@@ -44,23 +49,45 @@ export const Inventory = () => {
           editArticle(data.data)
       }
 
+      if(data.action == 'editSeller'){
+          handleClose()
+          addArticleCart(data.data)
+      }
+
       if(data.action == 'get'){
-          const dataEdit = {
+          if(userData.Rol == 'Administrador'){
+            const dataEdit = {
+                IdCode: data.data.IdCode,
+                Code: data.data.Code,
+                Description: data.data.Description,
+                Axis: data.data.Axis,
+                Aloj: data.data.Aloj,
+                Height: data.data.Height,
+                Amount: data.data.Amount,
+                Price: data.data.Price,
+            }
+            setdataSendForm(dataFormAdmin)
+            setActionForm('edit')
+            setBodyForm(dataEdit)
+            handleOpen()
+          } else {
+            const dataEdit = {
               IdCode: data.data.IdCode,
               Code: data.data.Code,
               Description: data.data.Description,
               Axis: data.data.Axis,
               Aloj: data.data.Aloj,
               Height: data.data.Height,
-              Amount: data.data.Amount,
+              Amount: 0,
               Price: data.data.Price,
           }
-          setActionForm('edit')
+          setdataSendForm(dataFormSeller)
+          setActionForm('editSeller')
           setBodyForm(dataEdit)
           handleOpen()
+          }
       }
   }
-
   const editArticle = (userEdit) => {
     handleClose()
 
@@ -74,6 +101,12 @@ export const Inventory = () => {
   const addArticle = (newUser) => {
     postDataApi('inventory/add', newUser).then((data) => {
         if(data.success){ getInventory()}
+    }).catch(err => console.log(err))
+  }
+
+  const addArticleCart = (article) => {
+    postDataApi('cart/add', article).then((data) => {
+        console.log(data);
     }).catch(err => console.log(err))
   }
 
@@ -92,19 +125,32 @@ export const Inventory = () => {
   }
 
   useEffect(() => {
+    changeColumn()
     getInventory()
   }, [])
 
-
+  const changeColumn = () => {
+    setUserRol(userData.Rol);
+    if(userData.Rol != 'Administrador'){
+      const newColumn = [...columns];
+      newColumn[newColumn.length - 1] = 'Agregar';
+      setColumns(newColumn);
+      setActionTable('Add');
+    }
+  }
   const handleFilterChange = (event) => {
     setFilterText(event.target.value);
   };
 
-  const filteredRows = rows.filter(
-    (row) =>
-      row.Code.toLowerCase().includes(filterText.toLowerCase()) ||
-      row.Description.toLowerCase().includes(filterText.toLowerCase())
-  );
+  useEffect(() => {
+    if(rows && rows.length > 0){
+      const filteredRows = rows.filter((row) =>
+        row.Code.toLowerCase().includes(filterText.toLowerCase()) ||
+        row.Description.toLowerCase().includes(filterText.toLowerCase())
+      );
+      setFilteredRows(filteredRows);
+    }
+  }, [rows, filterText])
   
   return (
     <div className="log">
@@ -128,19 +174,28 @@ export const Inventory = () => {
               onChange={handleFilterChange}
             />
 
-            <IconButton color="primary" aria-label="add" className='btnAdd' onClick={openNew}>
-              <AddIcon/>
-            </IconButton>
+            {userRol == 'Administrador' && 
+              <IconButton color="primary" aria-label="add" className='btnAdd' onClick={openNew}>
+                <AddIcon/>
+              </IconButton>
+            }
           </div>
         </div>
 
         <div className="tableContent">
-          <TablaComponents
+          {rows && filteredRows.length > 0 ?
+            <TablaComponents
             rows={filteredRows}
-            columns={columns}
+            columns={columnsInventory}
             columnsName={columnsName}
+            action={actionTable}
             sendFather={getDataChild}
-          />
+            />
+            :
+            <div className='mt-10'>
+                No se encuentran articulos disponibles
+            </div>
+          }
         </div>
 
         <div className="modal">
@@ -161,7 +216,7 @@ export const Inventory = () => {
                   <Box sx={style}>
                       <FormGenerator
                           title={'Agregar Articulo'}
-                          dataForm={dataForm}
+                          dataForm={dataSendForm}
                           bodySend={bodyForm}
                           action={actionForm}
                           validationSchema={validationSchema}

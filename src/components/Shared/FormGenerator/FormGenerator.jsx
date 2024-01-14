@@ -29,6 +29,7 @@ export const FormGenerator = ({title, dataForm, bodySend, validationSchema, acti
                         label={formInput.label} 
                         type={formInput.type}
                         key={index}  
+                        disabled={formInput.readOnly}
                         name={formInput.name}
                         value={formik.values[formInput.name]}
                         onChange={formik.handleChange}

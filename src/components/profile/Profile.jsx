@@ -45,8 +45,6 @@ export const Profile = () => {
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem('userData'));
-    console.log(profileData);
-
     const updatedProfileData = profileData.map(item => ({
       ...item,
       value: userData[item.name],

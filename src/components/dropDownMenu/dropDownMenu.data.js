@@ -18,6 +18,12 @@ export const menuOption = [
         permises: ['Administrador','Vendedor']
     },
     {
+        title:'Carrito',
+        redirect:'/cart',
+        icon: 'cart',
+        permises: ['Vendedor']
+    },
+    {
         title:'Reportes',
         redirect:'/reports',
         icon: 'reports',

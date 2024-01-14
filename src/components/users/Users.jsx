@@ -128,7 +128,12 @@ export const Users = () => {
                 </div>
 
                 <div className="tableContent">
-                    <TablaComponents rows={filteredRows} columns={columns} columnsName={columnsName} sendFather={getDataChild}/>
+                    <TablaComponents 
+                    rows={filteredRows} 
+                    columns={columns} 
+                    columnsName={columnsName} 
+                    action={'Edit'}
+                    sendFather={getDataChild}/>
                 </div>
 
                 <div className="modal">
