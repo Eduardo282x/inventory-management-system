@@ -101,6 +101,12 @@ export const Cart = () => {
             details: rows,
             total: total
         }
+
+        postDataApi('sales/add', sale).then((data) => {
+            setOpenSnak(true);
+            setMessageResponse(data.message);
+            getCart();
+        }). catch( err => console.log(err))
         console.log(sale);
     }
 
