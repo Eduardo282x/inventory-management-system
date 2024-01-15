@@ -1,21 +1,12 @@
 import { TablaComponents } from '../Shared/Table/TablaComponents';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import GroupIcon from '@mui/icons-material/Group';
-import IconButton from '@mui/material/IconButton';
-import TextField from '@mui/material/TextField';
-import AddIcon from '@mui/icons-material/Add';
-import { useNavigate } from "react-router-dom";
-import Paper from '@mui/material/Paper';
-import { Button } from '@mui/material';
-import { useEffect, useState } from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
 import { FormGenerator } from '../Shared/FormGenerator/FormGenerator';
-import Snackbar from '@mui/material/Snackbar';
 import { columns,columnsName, style, dataForm, bodySend, validationSchema } from './users.data';
-import { getDataApi, postDataApi } from '../../backend/BasicAxios'
+import { getDataApi, postDataApi } from '../../backend/BasicAxios';
+import {ArrowBackIcon,GroupIcon,IconButton,AddIcon,TextField,Paper,Button,Backdrop,Box,Modal,Fade,Snackbar,} from '../materialUI'
+
+import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
+
 import './users.css'
 
 export const Users = () => {
@@ -26,6 +17,17 @@ export const Users = () => {
     const handleOpen = () => setOpenModal(true);
     const handleClose = () => setOpenModal(false);
     const [filterText, setFilterText] = useState('');
+
+    const [openSnak, setOpenSnak] = useState(false);
+    const [messageResponse, setMessageResponse] = useState('');
+
+    const handleCloseSnack = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+    
+        setOpenSnak(false);
+    };
 
     const handleFilterChange = (event) => {
         setFilterText(event.target.value);
@@ -67,7 +69,11 @@ export const Users = () => {
         handleClose()
 
         postDataApi('users/edit', userEdit).then((data) => {
-            if(data.success){ getUsers()}
+            if(data.success){ 
+                setOpenSnak(true);
+                setMessageResponse(data.message);
+                getUsers()
+            }
         }).catch(err => console.log(err))
 
         setActionForm('add')
@@ -75,7 +81,11 @@ export const Users = () => {
 
     const addUser = (newUser) => {
         postDataApi('users/add', newUser).then((data) => {
-            if(data.success){ getUsers()}
+            if(data.success){ 
+                setOpenSnak(true);
+                setMessageResponse(data.message);
+                getUsers()
+            }
         }).catch(err => console.log(err))
     }
 
@@ -138,10 +148,11 @@ export const Users = () => {
                 </div>
 
                 <Snackbar
-                    open={true}
+                    open={openSnak}
                     autoHideDuration={3000}
-                    onClose={handleClose}
-                    message="Note archived"
+                    onClose={handleCloseSnack}
+                    message={messageResponse}
+                    anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                     // action={action}
                 />
 

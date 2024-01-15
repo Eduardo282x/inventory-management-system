@@ -44,8 +44,8 @@ export const style = {
     p: 4,
 };
 
-export const validationSchema = yup.object({
-    Amount : yup.string().required('El campo es requerido'),
+export const validationSchemaEdit = yup.object({
+    Amount : yup.number().required('El campo es requerido'),
 });
 
 export const dataFormSeller =[

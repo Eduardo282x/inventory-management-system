@@ -1,21 +1,11 @@
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import TextField from '@mui/material/TextField';
+import { ArrowBackIcon, ShoppingCartIcon, PointOfSaleIcon, Button, TextField, Paper, Backdrop, Snackbar, Box, Modal, Fade,} from '../materialUI'
 import { useNavigate } from "react-router-dom";
-import Paper from '@mui/material/Paper';
-import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import { TablaComponents } from '../Shared/Table/TablaComponents';
-import { columns,columnsName } from './cart.data';
-import Snackbar from '@mui/material/Snackbar';
 import { getDataApi, postDataApi } from '../../backend/BasicAxios'
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import { style,validationSchema,dataFormSeller } from './cart.data';
+import { TablaComponents } from '../Shared/Table/TablaComponents';
+import { style,validationSchemaEdit,dataFormSeller,columns,columnsName } from './cart.data';
 import { FormGenerator } from '../Shared/FormGenerator/FormGenerator';
-
+import * as yup from 'yup';
 
 export const Cart = () => {
     const navigate = useNavigate();
@@ -24,13 +14,12 @@ export const Cart = () => {
     const [bodySheller,setBodySheller] = useState({});
     const [messageResponse, setMessageResponse] = useState('');
     const [openSnak, setOpenSnak] = useState(false);
+    const [validationSchema, setValidationSchema] = useState(validationSchemaEdit);
     const userData = JSON.parse(localStorage.getItem('userData'));
     const [filteredRows,setFilteredRows] = useState([]);
     const [filterText, setFilterText] = useState('');
 
-    const openEdit = () => {
-        handleOpen()
-    }
+    const openEdit = () => {handleOpen()}
 
     const [openModal, setOpenModal] = useState(false);
     const handleOpen = () => setOpenModal(true);
@@ -64,6 +53,10 @@ export const Cart = () => {
                 Amount: data.data.Amount,
                 Description: data.data.Description
             }
+            const validationSchemaEdit = yup.object({
+                Amount : yup.number().max(data.data.AmountMax,'La cantidad ingresada supera su existencia.').required('El campo es requerido'),
+            });
+            setValidationSchema(validationSchemaEdit)
             setBodySheller(bodySend)
             openEdit();
         }
@@ -102,10 +95,18 @@ export const Cart = () => {
         })
     }
 
+    const processSale = () => {
+        const sale = {
+            idSheller: userData.Id,
+            details: rows,
+            total: total
+        }
+        console.log(sale);
+    }
+
     useEffect(()=> {
         getCart();
     }, []);
-    
 
     useEffect(()=> {
         if(rows && rows.length > 0){
@@ -136,7 +137,11 @@ export const Cart = () => {
                             value={filterText}
                             onChange={handleFilterChange}
                         />
+                        <Button color="primary" variant="outlined" onClick={processSale} className='goingCart' endIcon={<PointOfSaleIcon/>}>
+                            Procesar
+                        </Button>
                     </div>
+
                 </div>
 
                 <div className="tableContent">

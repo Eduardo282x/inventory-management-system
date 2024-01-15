@@ -1,25 +1,14 @@
-import { TablaComponents } from "../Shared/Table/TablaComponents";
-import InventoryIcon from "@mui/icons-material/Inventory";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import TextField from "@mui/material/TextField";
-import { useNavigate } from "react-router-dom";
-import Paper from "@mui/material/Paper";
-import { Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import {InventoryIcon, ShoppingCartIcon,ArrowBackIcon, AddIcon, IconButton, Button,TextField,Paper,Backdrop,Snackbar,Box,Modal,Fade,} from '../materialUI'
+import { style, dataFormAdmin, dataFormSeller, validationSchemaAdmin, bodySend} from './inventory.data'
+import { FormGenerator } from '../Shared/FormGenerator/FormGenerator';
 import { columns, columnsName } from "./inventory.data";
 import { getDataApi, postDataApi } from "../../backend/BasicAxios";
-import Box from '@mui/material/Box';
+import { TablaComponents } from "../Shared/Table/TablaComponents";
+
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import * as yup from 'yup';
 
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import { FormGenerator } from '../Shared/FormGenerator/FormGenerator';
-import IconButton from '@mui/material/IconButton';
-import Snackbar from '@mui/material/Snackbar';
-import AddIcon from '@mui/icons-material/Add';
-import Backdrop from '@mui/material/Backdrop';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import {style, dataFormAdmin, dataFormSeller, validationSchemaAdmin, bodySend} from './inventory.data'
 import "./inventory.css";
 
 export const Inventory = () => {
@@ -123,7 +112,11 @@ export const Inventory = () => {
     handleClose()
 
     postDataApi('inventory/edit', userEdit).then((data) => {
-        if(data.success){ getInventory()}
+        if(data.success){ 
+          setOpenSnak(true);
+          setMessageResponse(data.message);
+          getInventory()
+        }
     }).catch(err => console.log(err))
 
     setActionForm('add')
@@ -132,8 +125,8 @@ export const Inventory = () => {
     postDataApi('inventory/add', newUser).then((data) => {
         if(data.success){ 
           setOpenSnak(true);
-          getInventory();
           setMessageResponse(data.message);
+          getInventory();
         }
         
     }).catch(err => console.log(err))
