@@ -39,6 +39,12 @@ export const columnsName = [
         column: "Price",
         type: "price",
     },
+    {
+        column: "Editar",
+        type: "icon",
+        icon: 'Edit',
+        action: 'get'
+    },
 ];
 export const style = {
     position: 'absolute',
@@ -62,7 +68,7 @@ export const bodySend = {
     Price: '',
 }
 
-export const validationSchema = yup.object({
+export const validationSchemaAdmin = yup.object({
     Code: yup.string().required('Este campo es requerido'),
     Description: yup.string().required('Este campo es requerido'),
     Axis: yup.string().required('Este campo es requerido'),

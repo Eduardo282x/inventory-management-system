@@ -25,7 +25,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-export const TablaComponents = ({columns, rows, columnsName, action ,sendFather}) => {
+export const TablaComponents = ({columns, rows, columnsName, sendFather}) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -39,8 +39,8 @@ export const TablaComponents = ({columns, rows, columnsName, action ,sendFather}
         setPage(newPage);
     };
 
-    const sendData = (row) => {
-        sendFather({action: 'get', data: row})
+    const sendData = (row, action) => {
+        sendFather({action: action, data: row})
     }
 
     const handleChangeRowsPerPage = (event) => {
@@ -69,13 +69,13 @@ export const TablaComponents = ({columns, rows, columnsName, action ,sendFather}
                                         {ro.type == 'string' ? row[ro.column] : '' }
                                         {ro.type == 'mm' ? row[ro.column] + 'mm': '' }
                                         {ro.type == 'price' ? row[ro.column] + '$' : '' }
+                                        {ro.type == 'icon' && 
+                                        <IconButton className="editBtn" onClick={() => sendData(row, ro.action)}>
+                                            {setIcon(ro.icon)}
+                                        </IconButton>
+                                        }
                                     </TableCell>
                                 ))}
-                                <TableCell>
-                                    <IconButton className="editBtn" onClick={() => sendData(row)}>
-                                        {setIcon(action)}
-                                    </IconButton>
-                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -104,5 +104,4 @@ TablaComponents.propTypes = {
     rows: PropTypes.array,
     columnsName: PropTypes.array,
     sendFather: PropTypes.func,
-    action: PropTypes.string
 };

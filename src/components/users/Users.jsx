@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import { FormGenerator } from '../Shared/FormGenerator/FormGenerator';
+import Snackbar from '@mui/material/Snackbar';
 import { columns,columnsName, style, dataForm, bodySend, validationSchema } from './users.data';
 import { getDataApi, postDataApi } from '../../backend/BasicAxios'
 import './users.css'
@@ -135,6 +136,14 @@ export const Users = () => {
                     action={'Edit'}
                     sendFather={getDataChild}/>
                 </div>
+
+                <Snackbar
+                    open={true}
+                    autoHideDuration={3000}
+                    onClose={handleClose}
+                    message="Note archived"
+                    // action={action}
+                />
 
                 <div className="modal">
                     <Modal

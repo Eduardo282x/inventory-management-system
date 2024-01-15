@@ -9,13 +9,17 @@ import { useEffect, useState } from "react";
 import { columns, columnsName } from "./inventory.data";
 import { getDataApi, postDataApi } from "../../backend/BasicAxios";
 import Box from '@mui/material/Box';
+import * as yup from 'yup';
+
 import Modal from '@mui/material/Modal';
-import IconButton from '@mui/material/IconButton';
-import AddIcon from '@mui/icons-material/Add';
 import Fade from '@mui/material/Fade';
 import { FormGenerator } from '../Shared/FormGenerator/FormGenerator';
+import IconButton from '@mui/material/IconButton';
+import Snackbar from '@mui/material/Snackbar';
+import AddIcon from '@mui/icons-material/Add';
 import Backdrop from '@mui/material/Backdrop';
-import {style, dataFormAdmin, dataFormSeller, validationSchema, bodySend} from './inventory.data'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import {style, dataFormAdmin, dataFormSeller, validationSchemaAdmin, bodySend} from './inventory.data'
 import "./inventory.css";
 
 export const Inventory = () => {
@@ -25,17 +29,33 @@ export const Inventory = () => {
   const [rows,setRows] = useState([]);
   const [filteredRows,setFilteredRows] = useState([]);
   const [actionForm, setActionForm] = useState('add');
+  const [messageResponse, setMessageResponse] = useState('');
   const [actionTable, setActionTable] = useState('Edit');
   const [columnsInventory, setColumns] = useState(columns);
+  const [validationSchema, setValidationSchema] = useState(validationSchemaAdmin);
+  const [columnsInventoryName, setColumnsName] = useState(columnsName);
   const [bodyForm, setBodyForm] = useState(bodySend);
   const [dataSendForm, setdataSendForm] = useState(dataFormAdmin);
   const [openModal, setOpenModal] = useState(false);
+  const [openSnak, setOpenSnak] = useState(false);
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
   const [filterText, setFilterText] = useState("");
 
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnak(false);
+  };
+
   const goBack = () => {
     navigate(-1);
+  };
+
+  const goCart = () => {
+    navigate('/cart');
   };
 
   const getDataChild = (data) => {
@@ -67,11 +87,13 @@ export const Inventory = () => {
                 Price: data.data.Price,
             }
             setdataSendForm(dataFormAdmin)
+            setValidationSchema(validationSchemaAdmin);
             setActionForm('edit')
             setBodyForm(dataEdit)
             handleOpen()
           } else {
             const dataEdit = {
+              IdSheller : userData.Id,
               IdCode: data.data.IdCode,
               Code: data.data.Code,
               Description: data.data.Description,
@@ -81,6 +103,15 @@ export const Inventory = () => {
               Amount: 0,
               Price: data.data.Price,
           }
+
+          const validationSchemaSheller = yup.object({
+              Code: yup.string().required('Este campo es requerido'),
+              Description: yup.string().required('Este campo es requerido'),
+              Amount: yup.number().max(data.data.Amount, 'La cantidad ingresada supera su existencia.').required('Este campo es requerido'),
+              Price: yup.string().required('Este campo es requerido'),
+          });
+
+          setValidationSchema(validationSchemaSheller);
           setdataSendForm(dataFormSeller)
           setActionForm('editSeller')
           setBodyForm(dataEdit)
@@ -97,16 +128,23 @@ export const Inventory = () => {
 
     setActionForm('add')
   }
-
   const addArticle = (newUser) => {
     postDataApi('inventory/add', newUser).then((data) => {
-        if(data.success){ getInventory()}
+        if(data.success){ 
+          setOpenSnak(true);
+          getInventory();
+          setMessageResponse(data.message);
+        }
+        
     }).catch(err => console.log(err))
   }
 
   const addArticleCart = (article) => {
     postDataApi('cart/add', article).then((data) => {
-        console.log(data);
+        if(data.success){
+          setOpenSnak(true);
+          setMessageResponse(data.message);
+        }
     }).catch(err => console.log(err))
   }
 
@@ -133,9 +171,13 @@ export const Inventory = () => {
     setUserRol(userData.Rol);
     if(userData.Rol != 'Administrador'){
       const newColumn = [...columns];
+      const newColumnName = [...columnsName];
+      const changeColumnAdd = { column: "Agregar", type: "icon", icon: 'Add', action: 'get'};
       newColumn[newColumn.length - 1] = 'Agregar';
+      newColumnName[newColumnName.length - 1] = changeColumnAdd;
       setColumns(newColumn);
       setActionTable('Add');
+      setColumnsName(newColumnName);
     }
   }
   const handleFilterChange = (event) => {
@@ -174,10 +216,14 @@ export const Inventory = () => {
               onChange={handleFilterChange}
             />
 
-            {userRol == 'Administrador' && 
-              <IconButton color="primary" aria-label="add" className='btnAdd' onClick={openNew}>
+            {userRol == 'Administrador' ? 
+              <IconButton color="primary" className='btnAdd' onClick={openNew}>
                 <AddIcon/>
               </IconButton>
+              :
+              <Button color="primary" variant="outlined" className='goingCart' onClick={goCart} endIcon={<ShoppingCartIcon/>}>
+                Ir al carrito
+              </Button>
             }
           </div>
         </div>
@@ -187,7 +233,7 @@ export const Inventory = () => {
             <TablaComponents
             rows={filteredRows}
             columns={columnsInventory}
-            columnsName={columnsName}
+            columnsName={columnsInventoryName}
             action={actionTable}
             sendFather={getDataChild}
             />
@@ -197,6 +243,15 @@ export const Inventory = () => {
             </div>
           }
         </div>
+
+        <Snackbar
+            open={openSnak}
+            autoHideDuration={2000}
+            anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+            onClose={handleCloseSnack}
+            message={messageResponse}
+            // action={action}
+        />
 
         <div className="modal">
             <Modal
@@ -225,7 +280,7 @@ export const Inventory = () => {
                   </Box>
               </Fade>
           </Modal>
-      </div>
+        </div>
       </Paper>
     </div>
   );
