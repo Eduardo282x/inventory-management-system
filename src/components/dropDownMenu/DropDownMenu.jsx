@@ -1,11 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
-import LogoutIcon from '@mui/icons-material/Logout';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import DatasetIcon from '@mui/icons-material/Dataset';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import GroupIcon from '@mui/icons-material/Group';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { LogoutIcon, AccountCircleIcon, DatasetIcon, DashboardIcon, GroupIcon, ShoppingCartIcon, } from '../materialUI'
+
 import './dropDownMenu.css';
 import { useEffect, useState } from "react";
 import { menuOption } from "./dropDownMenu.data";

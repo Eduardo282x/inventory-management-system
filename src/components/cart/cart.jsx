@@ -107,7 +107,6 @@ export const Cart = () => {
             setMessageResponse(data.message);
             getCart();
         }). catch( err => console.log(err))
-        console.log(sale);
     }
 
     useEffect(()=> {
@@ -175,11 +174,10 @@ export const Cart = () => {
                     anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                     onClose={handleCloseSnack}
                     message={messageResponse}
-                    // action={action}
                 />
 
                 
-        <div className="modal">
+                <div className="modal">
                     <Modal
                         aria-labelledby="transition-modal-title"
                         aria-describedby="transition-modal-description"

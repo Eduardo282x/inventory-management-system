@@ -7,7 +7,9 @@ import TableRow from '@mui/material/TableRow';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
+import InfoIcon from '@mui/icons-material/Info';
 import Paper from '@mui/material/Paper';
+import moment from 'moment';
 import PropTypes from "prop-types";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
@@ -33,10 +35,17 @@ export const TablaComponents = ({columns, rows, columnsName, sendFather}) => {
         if(actionIcon == 'Edit') return <EditIcon />
         if(actionIcon == 'Add') return <AddIcon/>
         if(actionIcon == 'Delete') return <DeleteIcon/>;
+        if(actionIcon == 'info') return <InfoIcon/>;
     }
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
+    };
+
+    const parseDate = (date) => {
+        const parsedDate = moment(date);
+        const formattedDate = parsedDate.format('DD/MM/YYYY');
+        return formattedDate;
     };
 
     const sendData = (row, action) => {
@@ -69,6 +78,7 @@ export const TablaComponents = ({columns, rows, columnsName, sendFather}) => {
                                         {ro.type == 'string' ? row[ro.column] : '' }
                                         {ro.type == 'mm' ? row[ro.column] + 'mm': '' }
                                         {ro.type == 'price' ? row[ro.column] + '$' : '' }
+                                        {ro.type == 'date' ? parseDate(row[ro.column]) : '' }
                                         {ro.type == 'icon' && 
                                         <IconButton className="editBtn" onClick={() => sendData(row, ro.action)}>
                                             {setIcon(ro.icon)}
