@@ -21,7 +21,14 @@ export const columnsName = [
     {
         column: 'Phone',
         type: 'string',
-    }]
+    },
+    {
+        column: 'Editar',
+        type: 'icon',
+        icon: 'Edit',
+        action: 'get'
+    },
+]
 
 export const style = {
     position: 'absolute',

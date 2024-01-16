@@ -27,7 +27,7 @@ export const menuOption = [
         title:'Reportes',
         redirect:'/reports',
         icon: 'reports',
-        permises: ['Administrador','Vendedor']
+        permises: ['Administrador']
     },
     {
         title:'Cerrar Sesión',

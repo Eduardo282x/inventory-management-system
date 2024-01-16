@@ -6,3 +6,8 @@
     justify-content: center;
     color: #fff;
 }
+
+.goingCart{
+    width: 13rem;
+    margin-left: .5rem !important;
+}
