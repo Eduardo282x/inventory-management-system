@@ -1,0 +1,37 @@
+.groupIcon{
+    scale: 2;
+    margin: 0 1rem;
+}
+
+.buttonBack{
+    display: flex;
+    justify-content: flex-start;
+    width: 90%;
+    height: 20%;
+    align-items: center;
+    margin: 0 2rem;
+}
+
+.btnFilter{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.inputFilter{
+    width: 100%;
+    margin: 0 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.filter{
+    width: 100%;
+}
+
+.btnAdd{
+    margin-left: 1rem !important;
+    transform: scale(1.2);
+}

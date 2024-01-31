@@ -1,0 +1,33 @@
+.bannerDisplay{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 3rem;
+    color: #fff;
+    padding: 0 2rem;
+    background-color: #203054;
+    border-radius: .7rem;
+}
+
+.menuIcon{
+    cursor: pointer;
+}
+
+.bannerBackground{
+    width: 98vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    height: 4rem;
+}
+
+.logo{
+    background-image: url('../../assets/Logos/IINCA-08.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 8rem;
+    height: 8rem;
+}
