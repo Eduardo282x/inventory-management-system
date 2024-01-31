@@ -6,13 +6,13 @@ export const profileData = [
     {
         label: 'Nombre',
         name: 'Name',
-        value: userData.Name,
+        value: userData ? userData.Name : '',
         disabled: true,
     },
     {
         label: 'Apellido',
         name: 'Lastname',
-        value: userData.Lastname,
+        value: userData ? userData.Lastname : '',
         disabled: true,
     },
     {
@@ -24,31 +24,31 @@ export const profileData = [
     {
         label: 'Rol',
         name: 'Rol',
-        value: userData.Rol,
+        value: userData ? userData.Rol : '',
         disabled: true,
     },
     {
         label: 'Correo',
         name: 'Email',
-        value: userData.Email,
+        value: userData ? userData.Email : '',
         disabled: true,
     },
     {
         label: 'Cedula',
         name: 'Identify',
-        value: userData.Identify,
+        value: userData ? userData.Identify : '',
         disabled: true,
     },
     {
         label: 'Telefono',
         name: 'Phone',
-        value: userData.Phone,
+        value: userData ? userData.Phone : '',
         disabled: true,
     },
 ]
 
 export const profileSend = {    
-    Id: userData.Id,
+    Id: userData ? userData.Id : '',
     Password: '',
 }
 
