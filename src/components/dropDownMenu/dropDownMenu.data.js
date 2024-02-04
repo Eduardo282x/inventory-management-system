@@ -12,6 +12,12 @@ export const menuOption = [
         permises: ['Administrador']
     },
     {
+        title:'Clientes',
+        redirect:'/client',
+        icon: 'users',
+        permises: ['Administrador','Vendedor']
+    },
+    {
         title:'Inventario',
         redirect:'/inventory',
         icon: 'inventory',

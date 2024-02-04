@@ -8,6 +8,7 @@ import {Profile} from './components/profile/Profile'
 import {Reports} from './components/reports/Reports'
 import {Users} from './components/users/Users'
 import { Cart } from "./components/cart/cart";
+import { Clients } from "./components/clients/client";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "/users",
         element: <Users />
+      },
+      {
+        path: "/client",
+        element: <Clients />
       },
     ]
   }
