@@ -1,6 +1,5 @@
 import * as yup from 'yup';
 
-export const columns = ['Nombre', 'Apellido', 'Correo', 'Cédula', 'Teléfono','Address', 'Editar']
 export const columnsName = [
     {
         column: 'Name',
@@ -32,7 +31,15 @@ export const columnsName = [
         icon: 'Edit',
         action: 'get'
     },
-]
+    {
+        column: 'Borrar',
+        type: 'icon',
+        icon: 'Delete',
+        action: 'delete'
+    },
+];
+export const columns = columnsName.map(item => item.column);
+
 
 export const style = {
     position: 'absolute',

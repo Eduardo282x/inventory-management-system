@@ -14,10 +14,13 @@ export const Clients = () => {
     const [openModal, setOpenModal] = useState(false);
     const [actionForm, setActionForm] = useState('add');
     const [bodyForm, setBodyForm] = useState(bodySend);
+    const [columnsState, setColumnsState] = useState(columns);
+    const [columnsNameState, setColumnsNameState] = useState(columnsName);
     const handleOpen = () => setOpenModal(true);
     const handleClose = () => setOpenModal(false);
     const [filterText, setFilterText] = useState('');
-
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    const [rows,setRows] = useState([]);
     const [openSnak, setOpenSnak] = useState(false);
     const [messageResponse, setMessageResponse] = useState('');
 
@@ -42,12 +45,17 @@ export const Clients = () => {
     const getDataChild = (data) => {
         if(data.action == 'add'){
             handleClose()
-            addUser(data.data)
+            addClient(data.data)
         }
 
         if(data.action == 'edit'){
             handleClose()
-            editUser(data.data)
+            editClient(data.data)
+        }
+
+        if(data.action == 'delete'){
+            const clientId = {Id: data.data.Id}
+            deleteClient(clientId)
         }
 
         if(data.action == 'get'){
@@ -66,7 +74,20 @@ export const Clients = () => {
         }
     }
 
-    const editUser = (userEdit) => {
+    const deleteClient = (clientId) => {
+        handleClose()
+
+        postDataApi('client/delete', clientId).then((data) => {
+            if(data.success){ 
+                setOpenSnak(true);
+                setMessageResponse(data.message);
+                getUsers()
+            }
+        }).catch(err => console.log(err))
+
+        setActionForm('add')
+    }
+    const editClient = (userEdit) => {
         handleClose()
 
         postDataApi('client/edit', userEdit).then((data) => {
@@ -79,8 +100,7 @@ export const Clients = () => {
 
         setActionForm('add')
     }
-
-    const addUser = (newUser) => {
+    const addClient = (newUser) => {
         postDataApi('client/add', newUser).then((data) => {
             if(data.success){ 
                 setOpenSnak(true);
@@ -90,8 +110,6 @@ export const Clients = () => {
         }).catch(err => console.log(err))
     }
 
-    const [rows,setRows] = useState([])
-
     const getUsers = () => {
         getDataApi('client').then((data)=> {
             setRows(data);
@@ -100,8 +118,18 @@ export const Clients = () => {
         })
     }
 
+    const changeColumn = () => {
+        if(userData && userData.Id != 1){
+            const columnsVendedor = columns.filter(item => item != 'Borrar');
+            const columnsNameVendedor = columnsName.filter(item => item.column != 'Borrar');
+            setColumnsState(columnsVendedor);
+            setColumnsNameState(columnsNameVendedor);
+        }
+    }
+
     useEffect(()=> {
         getUsers();
+        changeColumn();
     }, []);
 
     const filteredRows = rows && rows.filter((row) =>
@@ -143,8 +171,8 @@ export const Clients = () => {
                     <div className="tableContent">
                     <TablaComponents 
                     rows={filteredRows} 
-                    columns={columns} 
-                    columnsName={columnsName} 
+                    columns={columnsState} 
+                    columnsName={columnsNameState} 
                     action={'Edit'}
                     sendFather={getDataChild}/>
                 </div>
@@ -177,7 +205,7 @@ export const Clients = () => {
                     <Fade in={openModal}>
                         <Box sx={style}>
                             <FormGenerator
-                                title={'Agregar Cliente'}
+                                title={actionForm == 'add' ? 'Agregar Cliente' : 'Editar Cliente'}
                                 dataForm={dataForm}
                                 bodySend={bodyForm}
                                 action={actionForm}
