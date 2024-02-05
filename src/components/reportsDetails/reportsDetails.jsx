@@ -17,7 +17,6 @@ export const ReportsDetails = ({ IdSales, rowsDetails, columnsDetails, columnsNa
 
     useEffect(() => {
         let totalAccunt = 0;
-
         rowsDetails.forEach(row => {
             totalAccunt += row.Total;
         });
@@ -28,8 +27,8 @@ export const ReportsDetails = ({ IdSales, rowsDetails, columnsDetails, columnsNa
 
     return (
         <div className="flex flex-col items-center justify-between w-full h-full">
-            <div className="flex items-center justify-between w-full px-15">
-                <p><span className='font-bold'>Numero de pedido:</span> {IdSales}</p>
+            <div className="flex items-center justify-between w-[95%] px-15">
+                <p><span className='font-bold'>Numero de pedido:</span> {String(IdSales).padStart(7, '0')}</p>
                 <Button variant="contained" onClick={handleOpen}>
                     <DownloadIcon />
                     Descargar
