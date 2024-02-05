@@ -19,7 +19,6 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 
-
 export const style = {
     position: 'absolute',
     top: '50%',
