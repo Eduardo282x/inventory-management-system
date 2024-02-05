@@ -1,7 +1,7 @@
 import "./reports.css";
 import { useNavigate } from "react-router-dom";
 import moment from 'moment';
-import {Button,ArrowBackIcon,Paper,DashboardIcon,TextField,Backdrop,Modal,Fade,Box,DownloadIcon} from "../materialUI";
+import {Button,ArrowBackIcon,Paper,DashboardIcon,TextField,Backdrop,Modal,Fade,Box} from "../materialUI";
 
 import { useState } from "react";
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -12,6 +12,7 @@ import { useFormik } from "formik";
 import { TablaComponents } from "../Shared/Table/TablaComponents";
 import { bodyReport,validationSchema, columns, columnsName,style, columnsDetails, columnsNameDetails} from "./reports.data";
 import { getDataApi, postDataApi } from "../../backend/BasicAxios";
+import { ReportsDetails } from "../reportsDetails/reportsDetails";
 
 export const Reports = () => {
     const [rows, setRows] = useState([]);
@@ -128,20 +129,12 @@ export const Reports = () => {
                     <Fade in={openModal}>
                         <Box sx={style}>
                         {rowsDetails && rowsDetails.length > 0 ? (
-                            <div className="flex flex-col items-start justify-center w-full">
-                                <div className="flex items-center justify-between w-full px-15">
-                                    <p>Numero de pedido: {IdSales}</p>
-                                    <Button variant="contained" onClick={handleClose}>
-                                        <DownloadIcon/>
-                                        Descargar
-                                    </Button>
-                                </div>
-                                <TablaComponents
-                                    rows={rowsDetails}
-                                    columns={columnsDetails}
-                                    columnsName={columnsNameDetails}
+                            <ReportsDetails 
+                                columnsDetails={columnsDetails} 
+                                columnsNameDetails={columnsNameDetails}
+                                rowsDetails={rowsDetails}
+                                IdSales={IdSales}
                                 />
-                            </div>
                             ) : (
                                 ''
                             )}

@@ -81,7 +81,7 @@ export const Clients = () => {
             if(data.success){ 
                 setOpenSnak(true);
                 setMessageResponse(data.message);
-                getUsers()
+                getClients()
             }
         }).catch(err => console.log(err))
 
@@ -94,7 +94,7 @@ export const Clients = () => {
             if(data.success){ 
                 setOpenSnak(true);
                 setMessageResponse(data.message);
-                getUsers()
+                getClients()
             }
         }).catch(err => console.log(err))
 
@@ -105,12 +105,12 @@ export const Clients = () => {
             if(data.success){ 
                 setOpenSnak(true);
                 setMessageResponse(data.message);
-                getUsers()
+                getClients()
             }
         }).catch(err => console.log(err))
     }
 
-    const getUsers = () => {
+    const getClients = () => {
         getDataApi('client').then((data)=> {
             setRows(data);
         }).catch(err => {
@@ -128,7 +128,7 @@ export const Clients = () => {
     }
 
     useEffect(()=> {
-        getUsers();
+        getClients();
         changeColumn();
     }, []);
 
