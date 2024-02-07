@@ -28,6 +28,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export const TablaComponents = ({columns, rows, columnsName, sendFather}) => {
+
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -76,6 +77,7 @@ export const TablaComponents = ({columns, rows, columnsName, sendFather}) => {
                                 {columnsName.map((ro, key) => (
                                     <TableCell key={key}>
                                         {ro.type == 'string' ? row[ro.column] : '' }
+                                        {ro.type == 'facture' ?  String(row[ro.column]).padStart(7, '0') : '' }
                                         {ro.type == 'mm' ? row[ro.column] + 'mm': '' }
                                         {ro.type == 'price' ? row[ro.column] + '$' : '' }
                                         {ro.type == 'date' ? parseDate(row[ro.column]) : '' }

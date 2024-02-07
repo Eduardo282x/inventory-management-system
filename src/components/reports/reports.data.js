@@ -5,7 +5,7 @@ export const columns = ['N° Venta', 'Vendedor', 'Total', 'Fecha','Detalles'];
 export const columnsName = [
     {
         column: 'IdSales',
-        type: 'string',
+        type: 'facture',
     },
     {
         column: 'Name',

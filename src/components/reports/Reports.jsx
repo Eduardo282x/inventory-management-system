@@ -1,23 +1,24 @@
-import { bodyReport,validationSchema, columns, columnsName,style, columnsDetails, columnsNameDetails} from "./reports.data";
-import {Button,ArrowBackIcon,Paper,DashboardIcon,TextField,Backdrop,Modal,Fade,Box,DownloadIcon} from "../materialUI";
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { getDataApi, postDataApi } from "../../backend/BasicAxios";
-import { TablaComponents } from "../Shared/Table/TablaComponents";
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import React, { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import ReactToPrint from "react-to-print";
-import { useFormik } from "formik";
-import moment from 'moment';
 import "./reports.css";
+import { useNavigate } from "react-router-dom";
+import moment from 'moment';
+import {Button,ArrowBackIcon,Paper,DashboardIcon,TextField,Backdrop,Modal,Fade,Box} from "../materialUI";
+
+import { useState } from "react";
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useFormik } from "formik";
+import { TablaComponents } from "../Shared/Table/TablaComponents";
+import { bodyReport,validationSchema, columns, columnsName,style, columnsDetails, columnsNameDetails} from "./reports.data";
+import { getDataApi, postDataApi } from "../../backend/BasicAxios";
+import { ReportsDetails } from "../reportsDetails/reportsDetails";
 
 export const Reports = () => {
     const [rows, setRows] = useState([]);
     const [rowsDetails, setRowsDetails] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [IdSales, setIdSales] = useState('');
-    const [total, setTotal] = useState();
     const navigate = useNavigate();
 
     const goBack = () => {
@@ -34,15 +35,8 @@ export const Reports = () => {
     const getDetails = (idSales) => {
         setIdSales(idSales);
         getDataApi(`sales/details?IdSales=${idSales}`).then((data) => {
-            setTotal(0);
-            let total = 0
-            data.map(item => {
-                total += item.Total
-            });
-            setTotal(total);
-            setRowsDetails(data);
+            setRowsDetails(data)
         }).catch(err => console.log(err))
-
     };
 
     const postReport = (values) => {
@@ -61,26 +55,6 @@ export const Reports = () => {
         validationSchema: validationSchema,
         onSubmit: (values) => postReport(values),
     })
-
-    let componentRef = useRef();
-
-    class ComponentToPrint extends React.Component {
-        render() {
-          return (
-            <div className="w-full">
-                <p className="px-4">Numero de pedido: {IdSales}</p>
-                <TablaComponents
-                rows={rowsDetails}
-                columns={columnsDetails}
-                columnsName={columnsNameDetails}
-                />
-                <div className="text-right">
-                    <p className="p-4">Total: {total}$</p>
-                </div>
-            </div>
-          );
-        }
-      }
 
     return (
         <div className="log">
@@ -155,23 +129,13 @@ export const Reports = () => {
                     <Fade in={openModal}>
                         <Box sx={style}>
                         {rowsDetails && rowsDetails.length > 0 ? (
-                            <div className="flex flex-col items-start justify-center w-full">
-                                <div className="flex items-center justify-between w-full px-15">
-                                    {/* <p>Numero de pedido: {IdSales}</p> */}
-                                        <ReactToPrint
-                                            trigger={() =>
-                                                <div className="absolute w-full flex items-center justify-end px-16">
-                                                    <Button variant="contained" className="top-4">
-                                                        <DownloadIcon/>
-                                                        Descargar
-                                                    </Button>
-                                                </div>}
-                                            content={() => componentRef}
-                                        />
-                                </div>
-                                <ComponentToPrint ref={(el) => (componentRef = el)} />
-
-                            </div>
+                            <ReportsDetails 
+                                IdUser={rowsDetails[0].Id}
+                                columnsDetails={columnsDetails} 
+                                columnsNameDetails={columnsNameDetails}
+                                rowsDetails={rowsDetails}
+                                IdSales={IdSales}
+                                />
                             ) : (
                                 ''
                             )}
@@ -182,6 +146,4 @@ export const Reports = () => {
             </Paper>
         </div>
     );
-
-    
 };
