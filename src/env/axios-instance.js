@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({ 
-    baseURL: 'https://3kqd6h01-3008.use2.devtunnels.ms/api'
+    baseURL: 'http://localhost:3008/api'
 });
 
 export default instance;

@@ -17,6 +17,7 @@
     "@mui/material": "^5.14.14",
     "@mui/styled-engine-sc": "^6.0.0-alpha.2",
     "@mui/x-date-pickers": "^5.0.20",
+    "@react-pdf/renderer": "^3.3.7",
     "dayjs": "^1.11.10",
     "formik": "^2.4.5",
     "moment": "^2.30.1",

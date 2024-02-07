@@ -3,8 +3,9 @@ import { Button, DownloadIcon, style, Backdrop, Modal,Fade,Box } from '../materi
 import { TablaComponents } from '../Shared/Table/TablaComponents';
 import PropTypes from "prop-types";
 import { SelectClient } from './selectClient/SelectClient';
+import {postDataApi} from '../../backend/BasicAxios';
 
-export const ReportsDetails = ({ IdSales, rowsDetails, columnsDetails, columnsNameDetails }) => {
+export const ReportsDetails = ({ IdSales, IdUser, rowsDetails, columnsDetails, columnsNameDetails }) => {
     const [total, setTotal] = useState(0);
     const [openModal, setOpenModal] = useState(false);
     const handleClose = () => setOpenModal(false);
@@ -12,7 +13,12 @@ export const ReportsDetails = ({ IdSales, rowsDetails, columnsDetails, columnsNa
 
     const getClient = (client) => {
         handleClose();
-        console.log(client);
+        const dataGetFacture = {IdClient: client.clientId, IdSales: IdSales, IdUser: IdUser};
+        console.log(dataGetFacture);
+
+        postDataApi('sales/facture',dataGetFacture).then((data) => {
+            console.log(data);
+        }).catch(err => console.log(err))
     }
 
     useEffect(() => {
@@ -70,6 +76,7 @@ export const ReportsDetails = ({ IdSales, rowsDetails, columnsDetails, columnsNa
 
 ReportsDetails.propTypes = {
     IdSales: PropTypes.number,
+    IdUser: PropTypes.number,
     rowsDetails: PropTypes.array,
     columnsDetails: PropTypes.array,
     columnsNameDetails: PropTypes.array,

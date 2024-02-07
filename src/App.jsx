@@ -9,6 +9,7 @@ import {Reports} from './components/reports/Reports'
 import {Users} from './components/users/Users'
 import { Cart } from "./components/cart/cart";
 import { Clients } from "./components/clients/client";
+import {PdfGenerate} from "./components/shared/pdfGenerate/pdfGenerate";
 
 const router = createBrowserRouter([
   {
@@ -47,7 +48,11 @@ const router = createBrowserRouter([
         element: <Clients />
       },
     ]
-  }
+  },
+  {
+    path: "/pdf",
+    element: <PdfGenerate/>
+  },
 ]);
 
 function App() {

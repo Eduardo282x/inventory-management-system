@@ -130,6 +130,7 @@ export const Reports = () => {
                         <Box sx={style}>
                         {rowsDetails && rowsDetails.length > 0 ? (
                             <ReportsDetails 
+                                IdUser={rowsDetails[0].Id}
                                 columnsDetails={columnsDetails} 
                                 columnsNameDetails={columnsNameDetails}
                                 rowsDetails={rowsDetails}

@@ -260,9 +260,9 @@ export const Inventory = () => {
                 >
                   <AddIcon />
                 </IconButton>
-                {/* <Button variant="contained" color="success" endIcon={<DownloadIcon />}>
+                <Button variant="contained" color="success" endIcon={<DownloadIcon />}>
                   ABC
-                </Button> */}
+                </Button>
               </div>
             ) : (
               <Button
