@@ -18,6 +18,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
+import PeopleIcon from '@mui/icons-material/People';
 
 export const style = {
     position: 'absolute',
@@ -39,6 +40,7 @@ ShoppingCartIcon,
 PointOfSaleIcon,
 InventoryIcon,
 AddIcon,
+PeopleIcon,
 GroupIcon,
 LogoutIcon,
 AccountCircleIcon,

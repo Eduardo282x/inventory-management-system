@@ -29,6 +29,7 @@ import { TablaComponents } from "../Shared/Table/TablaComponents";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import * as yup from "yup";
+import axios from '../../env/axios-instance';
 
 import "./inventory.css";
 
@@ -53,6 +54,22 @@ export const Inventory = () => {
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
   const [filterText, setFilterText] = useState("");
+
+  const getABC = async () => {
+    try {
+      const response = await axios.get('/inventory/abc', {
+        responseType: 'blob',
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'InventarioABC.xlsx');
+      document.body.appendChild(link);
+      link.click();
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   const handleCloseSnack = (event, reason) => {
     if (reason === "clickaway") {
@@ -260,7 +277,7 @@ export const Inventory = () => {
                 >
                   <AddIcon />
                 </IconButton>
-                <Button variant="contained" color="success" endIcon={<DownloadIcon />}>
+                <Button onClick={getABC} variant="contained" color="success" endIcon={<DownloadIcon />}>
                   ABC
                 </Button>
               </div>

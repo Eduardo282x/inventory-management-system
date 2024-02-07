@@ -28,6 +28,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export const TablaComponents = ({columns, rows, columnsName, sendFather}) => {
+
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 

@@ -32,7 +32,6 @@ export const SelectClient = ({sendFather}) => {
     const getClient = () => {
         getDataApi('client').then((data)=> {
             setClients([]);
-            console.log(data);
             const optionClients = [];
             data.map(client => {
                 optionClients.push({label: `${client.Name} ${client.Lastname}`, id: client.Id})
